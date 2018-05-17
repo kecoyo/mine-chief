@@ -10,11 +10,14 @@ export default class LoginForm extends PureComponent {
 		this.state = {
 			username: 'kecoyo@163.com',
 			password: '123456',
+
+			isFetching: false,
+			errorMessage: '',
 		}
 	}
 
 	render() {
-		let {username, password} = this.state;
+		let {username, password, errorMessage} = this.state;
 		return (
 			<form className="form-horizontal mt10" action="" id="login-form" role="form">
 				<div className="form-group">
@@ -42,6 +45,9 @@ export default class LoginForm extends PureComponent {
 						</label>
 					</div>
 					<div className="col-lg-6 col-md-6 col-sm-6 col-xs-4">
+						{errorMessage && <label className="loginErrorInfo">
+							{errorMessage}
+						</label>}
 						<button className="btn btn-success pull-right" type="button"
 								onClick={this.login.bind(this)}>登陆
 						</button>
@@ -122,9 +128,12 @@ export default class LoginForm extends PureComponent {
 	}
 
 	login() {
+		this.setState({isFetching: true});
+
 		let valid = $("#login-form").valid();
 		if (valid) {
 			let {username, password} = this.state;
+			this.setState({isFetching: true});
 			systemApi.login({
 				mailOrPhone: username,
 				password,

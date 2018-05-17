@@ -8,6 +8,9 @@ import Dashboard from './routes/dashboard';
 import Mine from './routes/mine';
 import Miner from './routes/miner';
 import Profit from './routes/profit';
+import Settings from './routes/settings';
+import Profile from './routes/profile';
+import MineEdit from "./routes/mine/MineEdit";
 
 /**
  * 模块路由
@@ -20,9 +23,12 @@ const router = () => (
 			<Route path="/home" render={(props) => (
 				<Layout>
 					<Route exact path={`${props.match.path}/`} component={Dashboard}/>
-					<Route path={`${props.match.path}/mine`} component={Mine}/>
+					<Route path={`${props.match.path}/mine`} component={Mine} exact/>
+					<Route path={`${props.match.path}/mine/edit`} component={MineEdit}/>
 					<Route path={`${props.match.path}/miner`} component={Miner}/>
 					<Route path={`${props.match.path}/profit`} component={Profit}/>
+					<Route path={`${props.match.path}/settings`} component={Settings}/>
+					<Route path={`${props.match.path}/profile`} component={Profile}/>
 				</Layout>
 			)}/>
 		</Switch>

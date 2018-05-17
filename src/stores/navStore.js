@@ -8,16 +8,22 @@ class NavStore {
 	}
 
 	@observable navs = [
-		{name: 'Dashboard', icon: 'im-screen', path: '/home'},
-		{name: '矿工管理', icon: 'im-users2', path: '/home/miner'},
-		{name: '矿场管理', icon: 'im-office', path: '/home/mine'},
-		{name: '收益计算', icon: 'im-library', path: '/home/profit'}
+		{name: 'Dashboard', icon: 'im-screen', path: '/home', sidebar: true},
+		{name: '矿工管理', icon: 'im-users2', path: '/home/miner', sidebar: true},
+		{name: '矿场管理', icon: 'im-office', path: '/home/mine', sidebar: true},
+		{name: '收益计算', icon: 'im-library', path: '/home/profit', sidebar: true},
+		{name: 'Profile', icon: 'st-user', path: '/home/profile'},
+		{name: 'Settings', icon: 'st-settings', path: '/home/settings'}
 	];
 	@observable activeNav = this.navs[0];
 
 	@action
 	hashChange() {
-		this.activeNav = this.navs.find((nav) => nav.path == location.hash.substring(1)) || this.navs[0]
+		let find = this.navs.find((nav) => nav.path == location.hash.substring(1));
+		if (find) {
+			this.activeNav = find
+		}
+
 	}
 
 }
