@@ -1,11 +1,11 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
 import MineEditStore from "../../stores/MineEditStore";
 import routerHistory from "../../js/routerHistory";
 
 @observer
-export default class MineEdit extends PureComponent {
+export default class MineEdit extends Component {
 
 	constructor(props) {
 		super(props);
@@ -19,14 +19,6 @@ export default class MineEdit extends PureComponent {
 			<Content>
 				<div className="row">
 					<div className="col-lg-12">
-
-
-						{success && <div className="alert alert-success fade in">
-							<button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
-							<i className="fa-ok alert-icon s24"></i>
-							<strong>Well done!</strong> You successfully read this important alert message.
-						</div>}
-
 						<div className="panel panel-default toggle" id="spr_0">
 							<div className="panel-heading"/>
 							<div className="panel-body">
@@ -52,7 +44,7 @@ export default class MineEdit extends PureComponent {
 										<label className="col-lg-2 control-label">Token</label>
 										<div className="col-lg-10">
 											<input id="token" name="ipStr" type="text" className="form-control"
-												   readOnly="readonly" placeholder="系统自动生成唯一编码"
+												   readOnly="true" placeholder="系统自动生成唯一编码"
 												   value={mine.token}/>
 										</div>
 									</div>
@@ -116,15 +108,6 @@ export default class MineEdit extends PureComponent {
 
 
 									<div className="form-group">
-										<div>
-											{errorMessage && <div className="alert alert-danger fade in">
-												<button type="button" className="close" data-dismiss="alert"
-														aria-hidden="true"
-														onClick={() => errorMessage = ''}>×
-												</button>
-												<strong>Oh snap!</strong> {errorMessage}
-											</div>}
-										</div>
 										<div className="col-lg-offset-2 pull-right">
 											<button className="btn btn-primary mr15" type="button"
 													onClick={() => this.store.saveOrUpdate()}>
@@ -142,8 +125,9 @@ export default class MineEdit extends PureComponent {
 	}
 
 	componentDidMount() {
-		if (this.props.match.params) {
-			this.store.fetchById(this.props.match.params.id)
+		let {id} = this.props.match.params;
+		if (id) {
+			this.store.fetchById(id)
 		}
 	}
 

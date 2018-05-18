@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
 import MineStore from "../../stores/MineStore";
@@ -6,7 +6,7 @@ import {dateUtils} from 'jeselvmo';
 import routerHistory from "../../js/routerHistory";
 
 @observer
-export default class Mine extends PureComponent {
+export default class Mine extends Component {
 
 	constructor(props) {
 		super(props);
@@ -15,14 +15,9 @@ export default class Mine extends PureComponent {
 
 	render() {
 		return (
-			<Content>
+			<Content toolbar={this.renderToolbar.bind(this)}>
 				<div className="row">
 					<div className="col-lg-12">
-						<button className="btn btn-primary" onClick={this.add.bind(this)}>添加矿场
-						</button>
-
-						{this.store.message}
-
 						<div className="panel panel-default plain toggle panelClose panelRefresh" id="spr_3">
 							<div className="panel-heading white-bg"></div>
 							<div className="panel-body">
@@ -62,6 +57,17 @@ export default class Mine extends PureComponent {
 				</div>
 			</Content>
 		)
+	}
+
+	renderToolbar() {
+		return [
+			<div className="btn-group" key="add">
+				<a className="btn tip" title="create mine"
+				   onClick={() => this.add()}>
+					<i className="im-plus s24"></i>
+				</a>
+			</div>
+		]
 	}
 
 	componentDidMount() {

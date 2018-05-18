@@ -1,7 +1,7 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import Content from '../layout/Content';
 
-export default class Settings extends PureComponent {
+export default class Settings extends Component {
 
 	render() {
 		return (

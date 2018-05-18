@@ -1,9 +1,11 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import navStore from "../../stores/navStore";
+import routerHistory from "../../js/routerHistory";
 
 @observer
-export default class Content extends PureComponent {
+export default class Content extends Component {
+
 	render() {
 		return (
 			<div id="content">
@@ -21,8 +23,16 @@ export default class Content extends PureComponent {
 							</ul>
 							<div className="option-buttons">
 								<div className="btn-toolbar" role="toolbar">
+									{this.renderToolbar()}
+									{routerHistory.length > 1 && <div className="btn-group">
+										<a className="btn tip" title="refresh current page"
+										   onClick={() => this.goBack()}>
+											<i className="im-undo color-brown s24"></i>
+										</a>
+									</div>}
 									<div className="btn-group">
-										<a id="clear-localstorage" className="btn tip" title="Reset panels position">
+										<a className="btn tip" title="refresh current page"
+										   onClick={() => this.refresh()}>
 											<i className="ec-refresh color-red s24"></i>
 										</a>
 									</div>
@@ -37,5 +47,21 @@ export default class Content extends PureComponent {
 				<div className="clearfix"></div>
 			</div>
 		)
+	}
+
+	renderToolbar() {
+		let {toolbar} = this.props;
+		if (typeof toolbar == 'function') {
+			return toolbar()
+		}
+		return toolbar
+	}
+
+	refresh() {
+		routerHistory.go(0)
+	}
+
+	goBack() {
+		routerHistory.goBack()
 	}
 }

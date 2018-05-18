@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import cs from 'classnames';
 import {observer} from 'mobx-react';
 import navStore from "../../stores/navStore";
 
 @observer
-export default class Content extends PureComponent {
+export default class Content extends Component {
 	render() {
 		return (
 			<div id="sidebar">

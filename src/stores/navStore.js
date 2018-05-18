@@ -15,6 +15,61 @@ class NavStore {
 		{name: 'Profile', icon: 'st-user', path: '/home/profile'},
 		{name: 'Settings', icon: 'st-settings', path: '/home/settings'}
 	];
+
+	@observable navs2 = {
+		name: 'Home',
+		icon: 'im-screen',
+		path: '/home',
+		children: [
+			{
+				name: 'Dashboard',
+				icon: 'im-screen',
+				path: '/home/dashboard',
+				sidebar: true
+			},
+			{
+				name: '矿工管理',
+				icon: 'im-users2',
+				path: '/home/miner',
+				sidebar: true
+			},
+			{
+				name: '矿场管理',
+				icon: 'im-office',
+				path: '/home/mine',
+				sidebar: true,
+				children: [
+					{
+						name: '添加矿场',
+						icon: 'st-user',
+						path: '/home/mine/add'
+					},
+					{
+						name: '修改矿场',
+						icon: 'st-settings',
+						path: '/home/mine/edit'
+					}
+				]
+			},
+			{
+				name: '收益计算',
+				icon: 'im-library',
+				path: '/home/profit',
+				sidebar: true
+			},
+			{
+				name: 'Profile',
+				icon: 'st-user',
+				path: '/home/profile'
+			},
+			{
+				name: 'Settings',
+				icon: 'st-settings',
+				path: '/home/settings'
+			}
+		]
+	};
+
 	@observable activeNav = this.navs[0];
 
 	@action

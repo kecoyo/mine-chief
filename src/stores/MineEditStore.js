@@ -8,8 +8,6 @@ class MineEditStore {
 
 	@observable mine = {};
 
-	@observable errorMessage = '';
-
 	constructor() {
 		this.mine = {
 			id: '',

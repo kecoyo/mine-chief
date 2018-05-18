@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
 import appStore from "../../stores/appStore";
 
 @observer
-export default class Profit extends PureComponent {
+export default class Profit extends Component {
 
 	render() {
 		return (
