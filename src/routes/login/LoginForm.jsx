@@ -1,7 +1,11 @@
 import React, {PureComponent} from 'react';
+import {observer} from 'mobx-react';
 import systemApi from "../../apis/systemApi";
 import utils from "../../js/utils";
+import {localStore} from "jeselvmo";
+import appStore from "../../stores/appStore";
 
+@observer
 export default class LoginForm extends PureComponent {
 
 	constructor(props) {
@@ -141,6 +145,7 @@ export default class LoginForm extends PureComponent {
 				this.setState({
 					isFetching: false,
 				});
+				appStore.token = result.obj;
 				location.hash = '/home';
 			}).catch((error) => {
 				this.setState({

@@ -1,46 +1,82 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
+import {observer} from 'mobx-react';
 import Content from '../layout/Content';
+import MineStore from "../../stores/MineStore";
+import {dateUtils} from 'jeselvmo';
+import routerHistory from "../../js/routerHistory";
 
-const Sample = () => (
-	<Content>
-		<div className="row">
-			<div className="col-lg-12">
-				<div className="panel panel-default plain toggle panelClose panelRefresh" id="spr_3">
-					<div className="panel-heading white-bg"></div>
-					<div className="panel-body">
-						<div className="table-responsive">
-							<table className="table table-striped">
-								<thead>
-								<tr>
-									<th className="per15">矿工名称</th>
-									<th className="per10">总机器数</th>
-									<th className="per10">在线机器数</th>
-									<th className="per15">Token</th>
-									<th className="per15">创建时间</th>
-									<th className="per15">最近连接</th>
-									<th className="per5">配置</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td>苏挖庄</td>
-									<td>1200</td>
-									<td>200</td>
-									<td>00:FF:93:3A:5C:9A</td>
-									<td>2015-08-07 22:22:55</td>
-									<td>2015-08-07 22:22:55</td>
-									<td>
-										<button type="button" className="btn btn-sm btn-danger">配置</button>
-									</td>
-								</tr>
-								</tbody>
-							</table>
+@observer
+export default class Mine extends PureComponent {
+
+	constructor(props) {
+		super(props);
+		this.store = new MineStore();
+	}
+
+	render() {
+		return (
+			<Content>
+				<div className="row">
+					<div className="col-lg-12">
+						<button className="btn btn-primary" onClick={this.add.bind(this)}>添加矿场
+						</button>
+
+						{this.store.message}
+
+						<div className="panel panel-default plain toggle panelClose panelRefresh" id="spr_3">
+							<div className="panel-heading white-bg"></div>
+							<div className="panel-body">
+								<div className="table-responsive">
+									<table className="table table-striped">
+										<thead>
+										<tr>
+											<th className="per15">矿工名称</th>
+											<th className="per10">总机器数</th>
+											<th className="per10">在线机器数</th>
+											<th className="per15">Token</th>
+											<th className="per15">创建时间</th>
+											<th className="per15">最近连接</th>
+											<th className="per5">配置</th>
+										</tr>
+										</thead>
+										<tbody>
+										{this.store.list.map((o) => (<tr key={o.id}>
+											<td>{o.name}</td>
+											<td>{o.mineNum}</td>
+											<td>{o.onlineNum}</td>
+											<td>{o.token}</td>
+											<td>{dateUtils.format(o.createTime, dateUtils.patterns.datetime)}</td>
+											<td>-</td>
+											<td>
+												<button type="button" className="btn btn-sm btn-danger"
+														onClick={this.edit.bind(this, o.id)}>配置
+												</button>
+											</td>
+										</tr>))}
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</Content>
-);
+			</Content>
+		)
+	}
 
-export default Sample;
+	componentDidMount() {
+		this.store.fetchList()
+	}
+
+	add() {
+		routerHistory.push({
+			pathname: 'mine/add'
+		})
+	}
+
+	edit(id) {
+		routerHistory.push({
+			pathname: 'mine/edit/' + id
+		})
+	}
+}

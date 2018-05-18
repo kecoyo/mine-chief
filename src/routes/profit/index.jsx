@@ -1,6 +1,9 @@
 import React, {PureComponent} from 'react';
+import {observer} from 'mobx-react';
 import Content from '../layout/Content';
+import appStore from "../../stores/appStore";
 
+@observer
 export default class Profit extends PureComponent {
 
 	render() {
@@ -9,6 +12,9 @@ export default class Profit extends PureComponent {
 				<div className="row">
 					<div className="col-lg-12">
 						profit
+					</div>
+					<div className="col-lg-12">
+						{appStore.token}
 					</div>
 				</div>
 			</Content>

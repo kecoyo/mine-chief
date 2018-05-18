@@ -1272,7 +1272,7 @@ vjs.getAbsoluteURL = function(url){
 // usage: log('inside coolFunc',this,arguments);
 // http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
 vjs.log = function(){
-  vjs.log.history = vjs.log.history || [];   // store logs to an array for reference
+  vjs.log.routerHistory = vjs.log.history || [];   // store logs to an array for reference
   vjs.log.history.push(arguments);
   if(window.console){
     window.console.log(Array.prototype.slice.call(arguments));
@@ -1320,10 +1320,10 @@ vjs.findPosition = function(el) {
 vjs.util = {};
 
 /**
- * Merge two options objects, 
+ * Merge two options objects,
  * recursively merging any plain object properties as well.
  * Previously `deepMerge`
- * 
+ *
  * @param  {Object} obj1 Object to override values in
  * @param  {Object} obj2 Overriding object
  * @return {Object}      New object -- obj1 and obj2 will be untouched

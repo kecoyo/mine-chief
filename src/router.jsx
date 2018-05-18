@@ -1,5 +1,6 @@
 import React from 'react';
-import {HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {Router, Route, Switch, Redirect} from 'react-router-dom';
+import routerHistory from './js/routerHistory';
 // import {asyncComponent} from 'beefly-common';
 // const BatteryChange = asyncComponent(() => import(/* webpackChunkName: "battery/change" */'./routes/battery/BatteryChange'));
 import Login from './routes/login';
@@ -16,7 +17,7 @@ import MineEdit from "./routes/mine/MineEdit";
  * 模块路由
  */
 const router = () => (
-	<Router>
+	<Router history={routerHistory}>
 		<Switch>
 			<Route path="/" exact render={() => <Redirect to="/login"/>}/>
 			<Route path="/login" component={Login}/>
@@ -24,7 +25,8 @@ const router = () => (
 				<Layout>
 					<Route exact path={`${props.match.path}/`} component={Dashboard}/>
 					<Route path={`${props.match.path}/mine`} component={Mine} exact/>
-					<Route path={`${props.match.path}/mine/edit`} component={MineEdit}/>
+					<Route path={`${props.match.path}/mine/add`} component={MineEdit}/>
+					<Route path={`${props.match.path}/mine/edit/:id`} component={MineEdit}/>
 					<Route path={`${props.match.path}/miner`} component={Miner}/>
 					<Route path={`${props.match.path}/profit`} component={Profit}/>
 					<Route path={`${props.match.path}/settings`} component={Settings}/>

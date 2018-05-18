@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
-import MineStore from "./MineStore";
+import MineEditStore from "../../stores/MineEditStore";
+import routerHistory from "../../js/routerHistory";
 
 @observer
 export default class MineEdit extends PureComponent {
@@ -9,14 +10,23 @@ export default class MineEdit extends PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.store = new MineStore();
+		this.store = new MineEditStore();
 	}
 
 	render() {
+		let {mine, errorMessage, success} = this.store;
 		return (
 			<Content>
 				<div className="row">
 					<div className="col-lg-12">
+
+
+						{success && <div className="alert alert-success fade in">
+							<button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<i className="fa-ok alert-icon s24"></i>
+							<strong>Well done!</strong> You successfully read this important alert message.
+						</div>}
+
 						<div className="panel panel-default toggle" id="spr_0">
 							<div className="panel-heading"/>
 							<div className="panel-body">
@@ -25,8 +35,8 @@ export default class MineEdit extends PureComponent {
 									<div className="form-group">
 										<label className="col-lg-2 control-label">矿工名称</label>
 										<div className="col-lg-10">
-											<input type="text" className="form-control required" value={this.store.name}
-												   onChange={e => this.store.name = e.target.value}/>
+											<input type="text" className="form-control required" value={mine.name}
+												   onChange={e => mine.name = e.target.value}/>
 										</div>
 									</div>
 									<div className="form-group">
@@ -34,8 +44,8 @@ export default class MineEdit extends PureComponent {
 										<div className="col-lg-10">
 											<input id="ipStr" name="ipStr" type="text" className="form-control"
 												   placeholder="192.168.0.100-200,192.168.1.50-200        注:多ip段用逗号隔开，显卡矿机不需要填写"
-												   value={this.store.ips}
-												   onChange={e => this.store.ips = e.target.value}/>
+												   value={mine.ips}
+												   onChange={e => mine.ips = e.target.value}/>
 										</div>
 									</div>
 									<div className="form-group">
@@ -43,7 +53,7 @@ export default class MineEdit extends PureComponent {
 										<div className="col-lg-10">
 											<input id="token" name="ipStr" type="text" className="form-control"
 												   readOnly="readonly" placeholder="系统自动生成唯一编码"
-												   value={this.store.token}/>
+												   value={mine.token}/>
 										</div>
 									</div>
 									<div className="form-group">
@@ -61,7 +71,7 @@ export default class MineEdit extends PureComponent {
 												</tr>
 												</thead>
 												<tbody>
-												{this.store.config.map((o) => (<tr key={o.type}>
+												{mine.config.map((o) => (<tr key={o.type}>
 													<td>
 														<input id="token" name="ipStr" type="text" value={o.type}
 															   className="form-control ui-spinner-input"/>
@@ -103,10 +113,21 @@ export default class MineEdit extends PureComponent {
 											</table>
 										</div>
 									</div>
+
+
 									<div className="form-group">
+										<div>
+											{errorMessage && <div className="alert alert-danger fade in">
+												<button type="button" className="close" data-dismiss="alert"
+														aria-hidden="true"
+														onClick={() => errorMessage = ''}>×
+												</button>
+												<strong>Oh snap!</strong> {errorMessage}
+											</div>}
+										</div>
 										<div className="col-lg-offset-2 pull-right">
 											<button className="btn btn-primary mr15" type="button"
-													onClick={this.saveOrUpdate.bind(this)}>
+													onClick={() => this.store.saveOrUpdate()}>
 												<i className="fa-ok"/> 保存
 											</button>
 										</div>
@@ -120,9 +141,9 @@ export default class MineEdit extends PureComponent {
 		)
 	}
 
-	saveOrUpdate() {
-		if(this.store.id){
-
+	componentDidMount() {
+		if (this.props.match.params) {
+			this.store.fetchById(this.props.match.params.id)
 		}
 	}
 
