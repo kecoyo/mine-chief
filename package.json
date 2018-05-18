@@ -10,13 +10,7 @@
 		"start": "npm run prepare && webpack-dev-server --progress --profile --colors",
 		"lint": "eslint --ext js --ext jsx src || exit 0",
 		"dev": " webpack-dashboard -- webpack-dev-server",
-		"test": "export NODE_ENV=test && jest",
-		"build:router": "node build/router.js",
-		"upload": "node script.js -u",
-		"publish": "npm run build && npm run upload",
-		"publish:dev": "node script.js -d && npm run publish",
-		"publish:prod": "node script.js -p && npm run publish",
-		"publish:all": "npm run publish:dev && npm run publish:prod"
+		"test": "export NODE_ENV=test && jest"
 	},
 	"repository": {
 		"type": "git",
@@ -42,7 +36,6 @@
 		"react-router-dom": "^4.2.2"
 	},
 	"devDependencies": {
-		"ali-oss": "^4.11.3",
 		"babel-core": "^6.23.1",
 		"babel-eslint": "^8.2.1",
 		"babel-jest": "^21.2.0",

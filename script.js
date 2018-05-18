@@ -1,18 +1,9 @@
 var fs = require('fs');// 加载File System读写模块
-var os = require('os');
 var path = require('path');
 var iconv = require('iconv-lite');// 加载编码转换模块
 var program = require('commander');
 var env = require('./src/js/env');
-var co = require('co');
-var OSS = require('ali-oss');
-var stringify = (result) => JSON.stringify(result, null, '    ');
 
-
-const bucket = 'mfweb';
-const ossRootDir = 'admin/ground';
-const publicDir = 'public';
-const uploadDir = ossRootDir + '/' + env.dir;
 
 // 设置默认显示使用帮助
 var argv = process.argv;
@@ -25,8 +16,6 @@ program
 	.option('-s, --status', '查看当前状态')
 	.option('-d, --development', '修改为开发环境')
 	.option('-p, --production', '修改为生产环境')
-	.option('-l, --list', '列表OSS上项目文件')
-	.option('-u, --upload', '上传./public目录中的文件到OSS上')
 	.option('-c, --copy', '将beefly-frame/public与static合并到./public目录中')
 	.parse(argv);
 
@@ -104,16 +93,6 @@ if (program.copy) {
 	travel("./static", './public');
 }
 
-function readOssConifg(_bucket) {
-	let data = fs.readFileSync(os.homedir() + '/.ossconfig', "utf-8");
-	let ossConfig = JSON.parse(data);
-	ossConfig.bucket = _bucket;
-	return ossConfig;
-}
-
-// oss client
-const client = new OSS(readOssConifg(bucket));
-
 // 遍历目录中所有文件
 const listNativeFiles = (dir) => {
 	let children = [];
@@ -139,79 +118,4 @@ const listNativeFiles = (dir) => {
 
 	return children
 };
-
-// 遍历OSS上目录下所有文件和子目录
-const listOssFiles = co.wrap(function* listDir(dir) {
-	let arrs = [];
-	let result = yield client.list({
-		prefix: dir,
-		delimiter: '/'
-	});
-
-	// 遍历子目录
-	let prefixes = result.prefixes;
-	if (prefixes) {
-		for (let i = 0; i < prefixes.length; i++) {
-			let prefixe = prefixes[i];
-			let subarrs = yield listDir(prefixe);
-			arrs = arrs.concat(subarrs);
-		}
-	}
-
-	// 遍历文件
-	let objects = result.objects;
-	if (objects) {
-		for (let i = 0; i < objects.length; i++) {
-			let obj = objects[i];
-			// if (obj.name !== dir) {
-			arrs.push(obj.name);
-			// }
-		}
-	}
-
-	// arrs.push(dir);
-	return Promise.resolve(arrs)
-});
-
-function* listTask(objectKey) {
-	console.log('list dir:' + objectKey);
-	let result = yield listOssFiles(objectKey);
-	console.log('result: ', stringify(result));
-}
-
-// 列出oss上文件列表
-if (program.list) {
-	co(listTask(uploadDir)).catch(function (err) {
-		console.log(err);
-	});
-}
-
-function* cleanupTask(objectKey) {
-	console.log('cleanup dir:' + objectKey);
-	let result = yield listOssFiles(objectKey);
-	if (result.length > 0)
-		yield client.deleteMulti(result);
-	console.log('result: ', stringify(result));
-}
-
-function* uploadTask(nativeDir, ossDir) {
-	let result = listNativeFiles(nativeDir)
-	console.log('upload:', stringify(result));
-	for (let localFile of result) {
-		let objectKey = ossDir + localFile.replace(nativeDir, '');
-		yield client.put(objectKey, localFile);
-	}
-}
-
-// 本地项目文件上传到oss
-if (program.upload) {
-	co(function* () {
-		yield cleanupTask(uploadDir);
-		yield uploadTask(publicDir, uploadDir);
-	}).catch(function (err) {
-		console.log(err);
-	});
-}
-
-
 
