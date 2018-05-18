@@ -1,6 +1,4 @@
-# 地勤管理平台
-
-![image](screenshots/2018-04-03_15-32-55.png)
+# mine-chief
 
 ### To run
 
@@ -8,7 +6,7 @@
 * Fork and clone the project:
 
 ```
-git clone http://59.110.52.154:82/html/app-web.git
+git clone https://github.com/kecoyo/mine-chief.git
 ```
 
 * Then install the dependencies:
@@ -59,21 +57,3 @@ To run linting, run:
 ```
 npm run lint
 ```
-
-### To build routers
-
-```
-npm run build:router
-```
-
-### To link beefly-common
-
-```
-cd beefly-common
-npm link
-
-cd beefly-ground
-npm link beefly-common
-
-```
-
