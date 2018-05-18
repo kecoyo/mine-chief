@@ -1,6 +1,6 @@
 import {observable, computed, action} from 'mobx';
-import mineApi from "../apis/mineApi";
-import utils from "../js/utils";
+import mineApi from "../../apis/mineApi";
+import utils from "../../js/utils";
 
 
 class MineStore {

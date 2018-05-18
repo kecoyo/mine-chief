@@ -1,7 +1,7 @@
 import {observable, computed, action} from 'mobx';
-import mineApi from "../apis/mineApi";
-import utils from "../js/utils";
-import msgBox from "../js/msgBox";
+import mineApi from "../../apis/mineApi";
+import utils from "../../js/utils";
+import msgBox from "../../js/msgBox";
 
 
 class MineEditStore {

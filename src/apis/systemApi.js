@@ -18,27 +18,11 @@ const systemApi = {
 	 */
 	login: (params) => request.get(env.apiPath + 'UserApi/login', params),
 
-	// 用户退出
-	logout: (params) => request.get(env.apiPath + 'account/logout', params),
-
-	// 修改密码
-	updatePassword: (params) => request.get(env.apiPath + 'account/updatePassword', params),
-
-	// 测试登录
-	testToken: (params) => request.get(env.apiPath + 'account/getListPage', params),
-
-	// 获取系统菜单
-	listMenu: (params) => request.get(env.apiPath + 'permission/listMenuByUserId', params),
-
-	// 获取系统按钮
-	listButton: (params) => request.get(env.apiPath + 'permission/listPermissionByUserId', params),
-
 	/**
 	 * 获取当前登录信息
 	 * @param params {}
 	 */
 	getLoginUser: (params) => request.get(env.apiPath + 'UserApi/info', params),
-
 
 };
 

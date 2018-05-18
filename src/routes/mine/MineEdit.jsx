@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
-import MineEditStore from "../../stores/MineEditStore";
+import MineEditStore from "./MineEditStore";
 import routerHistory from "../../js/routerHistory";
 
 @observer

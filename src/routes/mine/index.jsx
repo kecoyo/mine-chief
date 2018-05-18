@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
-import MineStore from "../../stores/MineStore";
+import MineStore from "./MineStore";
 import {dateUtils} from 'jeselvmo';
 import routerHistory from "../../js/routerHistory";
 
@@ -35,7 +35,7 @@ export default class Mine extends Component {
 										</tr>
 										</thead>
 										<tbody>
-										{this.store.list.map((o) => (<tr key={o.id}>
+										{this.store.list.map((o, i) => (<tr key={i}>
 											<td>{o.name}</td>
 											<td>{o.mineNum}</td>
 											<td>{o.onlineNum}</td>

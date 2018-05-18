@@ -1,6 +1,3 @@
-import {localStore} from 'jeselvmo';
-import {LOGIN_USER, TOKEN} from "./constants";
-
 let utils = {
 
 	// 是成功的结果
