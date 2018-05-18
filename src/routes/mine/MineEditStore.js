@@ -2,6 +2,7 @@ import {observable, computed, action} from 'mobx';
 import mineApi from "../../apis/mineApi";
 import utils from "../../js/utils";
 import msgBox from "../../js/msgBox";
+import routerHistory from "../../js/routerHistory";
 
 
 class MineEditStore {
@@ -11,8 +12,8 @@ class MineEditStore {
 	constructor() {
 		this.mine = {
 			id: '',
-			name: '苏挖庄',
-			ips: '192.168.0.100-200,192.168.1.50-200',
+			name: '',
+			ips: '',
 			token: '',
 			config: [
 				{
@@ -61,6 +62,8 @@ class MineEditStore {
 			config: JSON.stringify(mine.config)
 		}).then((result) => {
 			msgBox.success('保存成功！');
+			// 保存成功后，跳编辑页
+			routerHistory.push('edit/' + result.obj.id)
 		}).catch((error) => {
 			msgBox.error('保存失败！' + utils.getErrorMessage(error));
 		})

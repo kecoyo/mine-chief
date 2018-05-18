@@ -39,7 +39,7 @@ export default class Miner extends Component {
 										{this.store.list.slice(0, 20).map((o, i) =>
 											<tr key={i}>
 												<td>苏挖庄</td>
-												<td>Antminer T9+</td>
+												<td>{o.type}</td>
 												<td>苏挖庄</td>
 												<td>00:FF:93:3A:5C:9A</td>
 												<td>{o.ip}</td>

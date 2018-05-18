@@ -27,7 +27,7 @@ export default class Mine extends Component {
 										<tr>
 											<th className="per15">矿工名称</th>
 											<th className="per10">总机器数</th>
-											<th className="per10">在线机器数</th>
+											<th className="per10">可连接数</th>
 											<th className="per15">Token</th>
 											<th className="per15">创建时间</th>
 											<th className="per15">最近连接</th>
@@ -41,7 +41,7 @@ export default class Mine extends Component {
 											<td>{o.onlineNum}</td>
 											<td>{o.token}</td>
 											<td>{dateUtils.format(o.createTime, dateUtils.patterns.datetime)}</td>
-											<td>-</td>
+											<td>{o.lastConnTime}</td>
 											<td>
 												<button type="button" className="btn btn-sm btn-danger"
 														onClick={this.edit.bind(this, o.id)}>配置

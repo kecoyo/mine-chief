@@ -4,10 +4,11 @@ import {LOGIN_USER, TOKEN} from "../js/constants";
 import systemApi from "../apis/systemApi";
 import msgBox from "../js/msgBox";
 import utils from "../js/utils";
+import routerHistory from "../js/routerHistory";
 
 class AppStore {
 
-	@observable loginUser = {};
+	@observable loginUser = null;
 
 	@computed
 	get token() {
@@ -27,6 +28,12 @@ class AppStore {
 			.catch((error) => {
 				msgBox.error('获取用户信息失败！' + utils.getErrorMessage(error))
 			})
+	}
+
+	@action
+	logoff() {
+		this.token = null;
+		routerHistory.push('/login');
 	}
 
 }

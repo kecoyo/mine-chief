@@ -31,7 +31,8 @@ export default class Header extends Component {
 										</li>
 										<li><a href="#/home/settings"><i className="st-settings"></i> Settings</a>
 										</li>
-										<li><a href="#/login"><i className="im-exit"></i> Logout</a>
+										<li><a href="javascript:void()" onClick={() => appStore.logoff()}><i
+											className="im-exit"></i> Logout</a>
 										</li>
 									</ul>
 								</li>
@@ -41,10 +42,6 @@ export default class Header extends Component {
 				</div>
 			</div>
 		)
-	}
-
-	componentDidMount() {
-		appStore.fetchLoginUser()
 	}
 
 }
