@@ -25,13 +25,7 @@ module.exports = {
 		chunkFilename: 'js/[name].bundle.js'
 	},
 	externals: {
-		// "react": "React",
-		// "react-dom": "ReactDOM",
-		// "react-router": "ReactRouter",
-		// "react-router-dom": "ReactRouterDOM",
-		// "jquery": "jQuery",
-		// "lodash": "_",
-		// "jeselvmo": "Jeselvmo"
+		"jquery": "jQuery"
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']

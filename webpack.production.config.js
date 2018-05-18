@@ -20,9 +20,8 @@ loaders.push({
 
 module.exports = {
 	entry: {
-		'index': './src/frame/index.js',
-		'login': './src/frame/login.js',
-		'module': './src/index.jsx'
+		main: ['./src/index.jsx'],
+		vendor: ['react', 'react-dom', 'react-router', 'react-router-dom', 'prop-types', 'history', 'mobx', 'mobx-react', 'lodash', 'jeselvmo', 'classnames']
 	},
 	output: {
 		publicPath: './',
@@ -30,8 +29,12 @@ module.exports = {
 		filename: 'js/[name].' + hash + '.js',
 		chunkFilename: 'js/[name].' + hash + '.js'
 	},
-	resolve: webpackConfig.resolve,
-	externals: webpackConfig.externals,
+	resolve: {
+		extensions: ['.js', '.jsx']
+	},
+	externals: {
+		"jquery": "jQuery"
+	},
 	module: {
 		loaders
 	},
@@ -41,6 +44,10 @@ module.exports = {
 			'process.env': {
 				NODE_ENV: '"production"'
 			}
+		}),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			filename: 'vendor.bundle.js'
 		}),
 		new ExtractTextPlugin({
 			filename: 'css/[name].' + hash + '.css',
@@ -57,20 +64,7 @@ module.exports = {
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new HtmlWebpackPlugin({
-			filename: 'index.html',
-			template: './src/frame/index.html',
-			chunks: ['index']
-
-		}),
-		new HtmlWebpackPlugin({
-			filename: 'login.html',
-			template: './src/frame/login.html',
-			chunks: ['login']
-		}),
-		new HtmlWebpackPlugin({
-			filename: 'module.html',
-			template: './src/template.html',
-			chunks: ['module']
+			template: './src/template.html'
 		})
 	]
 };
