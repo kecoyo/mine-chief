@@ -1,36 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {observer} from 'mobx-react';
+import navStore from "../../stores/navStore";
+import routerHistory from "../../js/routerHistory";
+import appStore from "../../stores/appStore";
 
-const Header = () => (
-	<div id="header">
-		<div className="container-fluid">
-			<div className="navbar">
-				<div className="navbar-header">
-					<a className="navbar-brand" href="./#/home">
-						<i className="im-windows8 text-logo-element animated bounceIn"></i>
-						<span className="text-logo">spr</span>
-						<span className="text-slogan">flat</span>
-					</a>
-				</div>
-				<nav className="top-nav" role="navigation">
-					<ul className="nav navbar-nav pull-right">
-						<li className="dropdown">
-							<a href="#" data-toggle="dropdown">
-								<img className="user-avatar" src="assets/img/avatars/48.jpg" alt="SuggeElson"/>SuggeElson
+@observer
+export default class Header extends Component {
+
+	render() {
+		return (
+			<div id="header">
+				<div className="container-fluid">
+					<div className="navbar">
+						<div className="navbar-header">
+							<a className="navbar-brand" href="./#/home">
+								<i className="im-windows8 text-logo-element animated bounceIn"></i>
+								<span className="text-logo">spr</span>
+								<span className="text-slogan">flat</span>
 							</a>
-							<ul className="dropdown-menu right" role="menu">
-								<li><a href="#/home/profile"><i className="st-user"></i> Profile</a>
-								</li>
-								<li><a href="#/home/settings"><i className="st-settings"></i> Settings</a>
-								</li>
-								<li><a href="#/login"><i className="im-exit"></i> Logout</a>
+						</div>
+						<nav className="top-nav" role="navigation">
+							<ul className="nav navbar-nav pull-right">
+								<li className="dropdown">
+									<a href="#" data-toggle="dropdown">
+										<img className="user-avatar" src="assets/img/avatars/48.jpg"
+											 alt="SuggeElson"/>{appStore.loginUser.phone}
+									</a>
+									<ul className="dropdown-menu right" role="menu">
+										<li><a href="#/home/profile"><i className="st-user"></i> Profile</a>
+										</li>
+										<li><a href="#/home/settings"><i className="st-settings"></i> Settings</a>
+										</li>
+										<li><a href="#/login"><i className="im-exit"></i> Logout</a>
+										</li>
+									</ul>
 								</li>
 							</ul>
-						</li>
-					</ul>
-				</nav>
+						</nav>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-);
+		)
+	}
 
-export default Header;
+	componentDidMount() {
+		appStore.fetchLoginUser()
+	}
+
+}

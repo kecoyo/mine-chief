@@ -33,6 +33,11 @@ const systemApi = {
 	// 获取系统按钮
 	listButton: (params) => request.get(env.apiPath + 'permission/listPermissionByUserId', params),
 
+	/**
+	 * 获取当前登录信息
+	 * @param params {}
+	 */
+	getLoginUser: (params) => request.get(env.apiPath + 'UserApi/info', params),
 
 
 };

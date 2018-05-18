@@ -47,7 +47,7 @@ module.exports = {
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
-			filename: 'vendor.bundle.js'
+			filename: 'js/vendor.bundle.js'
 		}),
 		new ExtractTextPlugin({
 			filename: 'css/[name].' + hash + '.css',

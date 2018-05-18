@@ -1,8 +1,13 @@
-import {observable, computed} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import {localStore} from 'jeselvmo';
 import {LOGIN_USER, TOKEN} from "../js/constants";
+import systemApi from "../apis/systemApi";
+import msgBox from "../js/msgBox";
+import utils from "../js/utils";
 
 class AppStore {
+
+	@observable loginUser = {};
 
 	@computed
 	get token() {
@@ -13,14 +18,15 @@ class AppStore {
 		localStore.set(TOKEN, token)
 	}
 
-	@computed
-	get loginUser() {
-		return localStore.get(LOGIN_USER);
-	}
-
-	// 存储登录用户
-	set loginUser(loginUser) {
-		localStore.set(LOGIN_USER, loginUser);
+	@action
+	fetchLoginUser() {
+		systemApi.getLoginUser()
+			.then((result) => {
+				this.loginUser = result.obj
+			})
+			.catch((error) => {
+				msgBox.error('获取用户信息失败！' + utils.getErrorMessage(error))
+			})
 	}
 
 }
