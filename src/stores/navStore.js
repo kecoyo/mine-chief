@@ -1,22 +1,12 @@
 import {observable, computed, action} from 'mobx';
-
+import routerHistory from "../js/routerHistory";
 
 class NavStore {
 
-	constructor() {
-		window.addEventListener('hashchange', this.hashChange.bind(this));
-	}
-
-	@observable navs = [
-		{name: 'Dashboard', icon: 'im-screen', path: '/home', sidebar: true},
-		{name: '矿工管理', icon: 'im-users2', path: '/home/miner', sidebar: true},
-		{name: '矿场管理', icon: 'im-office', path: '/home/mine', sidebar: true},
-		{name: '收益计算', icon: 'im-library', path: '/home/profit', sidebar: true},
-		{name: 'Profile', icon: 'st-user', path: '/home/profile'},
-		{name: 'Settings', icon: 'st-settings', path: '/home/settings'}
-	];
-
-	@observable navs2 = {
+	// 当前路由
+	@observable pathname = routerHistory.location.pathname;
+	// 导航树
+	@observable tree = {
 		name: 'Home',
 		icon: 'im-screen',
 		path: '/home',
@@ -41,12 +31,12 @@ class NavStore {
 				children: [
 					{
 						name: '添加矿场',
-						icon: 'st-user',
+						icon: 'ec-pencil',
 						path: '/home/mine/add'
 					},
 					{
 						name: '修改矿场',
-						icon: 'st-settings',
+						icon: 'ec-pencil',
 						path: '/home/mine/edit'
 					}
 				]
@@ -70,15 +60,33 @@ class NavStore {
 		]
 	};
 
-	@observable activeNav = this.navs[0];
+	constructor() {
+		window.addEventListener('hashchange', this.hashChange.bind(this));
+	}
 
 	@action
 	hashChange() {
-		let find = this.navs.find((nav) => nav.path == location.hash.substring(1));
-		if (find) {
-			this.activeNav = find
-		}
+		this.pathname = location.hash.substring(1);
+	}
 
+	// 当前路由路径
+	@computed
+	get currentPaths() {
+		let paths = [];
+		let pathname = this.pathname + '/';
+
+		(function f(tree) {
+			if (pathname.startsWith(tree.path + '/')) {
+				paths.push(tree);
+				if (tree.children) {
+					tree.children.forEach((child) => {
+						f(child)
+					})
+				}
+			}
+		})(this.tree);
+
+		return paths
 	}
 
 }

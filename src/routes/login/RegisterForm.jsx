@@ -1,17 +1,17 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import systemApi from "../../apis/systemApi";
 import utils from "../../js/utils";
 
-export default class RegisterForm extends PureComponent {
+export default class RegisterForm extends Component {
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			email: 'kecoyo@163.com',
-			phone: '15901097191',
-			password: '123456',
-			password2: '123456',
+			email: '',
+			phone: '',
+			password: '',
+			password2: '',
 
 			isFetching: false,
 			errorMessage: '',

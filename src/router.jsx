@@ -23,7 +23,9 @@ const router = () => (
 			<Route path="/login" component={Login}/>
 			<Route path="/home" render={(props) => (
 				<Layout>
-					<Route exact path={`${props.match.path}/`} component={Dashboard}/>
+					<Route path={`${props.match.path}/`} exact
+						   render={() => <Redirect to={`/home/dashboard`}/>}/>
+					<Route path={`${props.match.path}/dashboard`} component={Dashboard}/>
 					<Route path={`${props.match.path}/mine`} component={Mine} exact/>
 					<Route path={`${props.match.path}/mine/add`} component={MineEdit}/>
 					<Route path={`${props.match.path}/mine/edit/:id`} component={MineEdit}/>

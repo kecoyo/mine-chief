@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import systemApi from "../../apis/systemApi";
 import utils from "../../js/utils";
@@ -6,14 +6,14 @@ import {localStore} from "jeselvmo";
 import appStore from "../../stores/appStore";
 
 @observer
-export default class LoginForm extends PureComponent {
+export default class LoginForm extends Component {
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			username: 'kecoyo@163.com',
-			password: '123456',
+			username: '',
+			password: '',
 
 			isFetching: false,
 			errorMessage: '',

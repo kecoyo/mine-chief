@@ -7,19 +7,23 @@ import routerHistory from "../../js/routerHistory";
 export default class Content extends Component {
 
 	render() {
+		let currentPaths = navStore.currentPaths;
+		let mainNav = currentPaths[1] || {};
 		return (
 			<div id="content">
 				<div className="content-wrapper">
 					<div className="row">
 						<div className="col-lg-12 heading">
 							<h1 className="page-header">
-								<i className={navStore.activeNav.icon}></i> {navStore.activeNav.name}
+								<i className={mainNav.icon}></i> {mainNav.name}
 							</h1>
 							<ul id="crumb" className="breadcrumb">
-								<li><i className="im-home"></i><a href="#/home">Home</a><i
-									className="en-arrow-right7"></i>
-								</li>
-								<li><i className={navStore.activeNav.icon}></i> {navStore.activeNav.name}</li>
+								{currentPaths.map((p, i) => (
+									<li key={p.path}>
+										<i className={p.icon}></i>
+										{i < (currentPaths.length - 1) ? <a href={`#${p.path}`}>{p.name}</a> : p.name}
+										{i < (currentPaths.length - 1) && <i className="en-arrow-right7"></i>}
+									</li>))}
 							</ul>
 							<div className="option-buttons">
 								<div className="btn-toolbar" role="toolbar">
