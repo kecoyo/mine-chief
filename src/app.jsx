@@ -2,7 +2,8 @@ import React from 'react';
 import utils from './js/utils';
 import Router from './router';
 import './styles/global.scss';
-import appStore from "./stores/appStore"; // Global styles
+import appStore from "./stores/appStore";
+import msgBox from "./js/msgBox"; // Global styles
 
 console.log(utils);
 
@@ -16,8 +17,11 @@ $.ajaxSetup({
 	},
 	complete: function (xhr) {
 		if (xhr.status == 450) {
-			alert(JSON.parse(xhr.responseText).message);
-			location.hash = '/login';
+			msgBox.alert(JSON.parse(xhr.responseText).message)
+				.then(() => {
+					location.hash = '/login';
+				});
+
 		}
 	}
 });

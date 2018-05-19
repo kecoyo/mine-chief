@@ -66,6 +66,36 @@ const msgBox = {
 			// (string | optional) the class name you want to apply to that specific message
 			class_name: 'error-notice'
 		});
+	},
+
+	alert(msg) {
+		return new Promise(function (resolve, reject) {
+			bootbox.dialog({
+				title: "Alert!!!",
+				message: msg || "This is custom alert",
+				buttons: {
+					success: {
+						label: "Ok i got it",
+						className: "btn-primary btn-alt",
+						callback: function () {
+							resolve()
+						}
+					}
+				}
+			});
+		})
+	},
+
+	confirm(msg) {
+		return new Promise(function (resolve, reject) {
+			bootbox.confirm({
+				message: msg,
+				title: "Are you sure ?",
+				callback: function (result) {
+					resolve(result)
+				}
+			});
+		})
 	}
 };
 

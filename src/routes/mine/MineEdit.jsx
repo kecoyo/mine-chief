@@ -16,7 +16,7 @@ export default class MineEdit extends Component {
 	render() {
 		let {mine, errorMessage, success} = this.store;
 		return (
-			<Content>
+			<Content showBack>
 				<div className="row">
 					<div className="col-lg-12">
 						<div className="panel panel-default toggle" id="spr_0">

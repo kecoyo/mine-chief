@@ -4,6 +4,8 @@ import Content from '../layout/Content';
 import MineStore from "./MineStore";
 import {dateUtils} from 'jeselvmo';
 import routerHistory from "../../js/routerHistory";
+import msgBox from "../../js/msgBox";
+import utils from "../../js/utils";
 
 @observer
 export default class Mine extends Component {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 import navStore from "../../stores/navStore";
 import routerHistory from "../../js/routerHistory";
@@ -28,7 +29,7 @@ export default class Content extends Component {
 							<div className="option-buttons">
 								<div className="btn-toolbar" role="toolbar">
 									{this.renderToolbar()}
-									{routerHistory.length > 1 && <div className="btn-group">
+									{this.props.showBack && <div className="btn-group">
 										<a className="btn tip" title="refresh current page"
 										   onClick={() => this.goBack()}>
 											<i className="im-undo color-brown s24"></i>
@@ -69,3 +70,12 @@ export default class Content extends Component {
 		routerHistory.goBack()
 	}
 }
+
+Content.propTypes = {
+	toolbar: PropTypes.any,	// 自定义toolbar按钮
+	showBack: PropTypes.bool,	// 显示返回按钮
+};
+
+Content.defaultProps = {
+	showBack: false
+};
