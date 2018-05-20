@@ -67,7 +67,7 @@ class MineEditStore {
 			name: mine.name,
 			ips: mine.ips,
 			token: mine.token,
-			config: JSON.stringify(mine.config)
+			restart: mine.restart
 		}).then((result) => {
 			notification.success({
 				message: '保存成功！'

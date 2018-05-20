@@ -52,8 +52,8 @@ export default class MineEdit extends Component {
 										<label className="col-lg-2 control-label"></label>
 										<div className="col-lg-10">
 											<label className="checkbox">
-													<input type="checkbox" name="restar" id="restart"  />
-												无法连接矿池，掉线或算力低于70%重启矿工?
+													<input type="checkbox" name="restar" id="restart" checked={mine.restart} onChange={()=>{mine.restart = !mine.restart}} />
+												当无法连接矿池，掉线或算力低于70%重启矿工?
 											</label>
 										</div>
 									</div>
