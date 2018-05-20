@@ -1,7 +1,7 @@
 import {action, observable} from 'mobx';
 import utils from "../../js/utils";
 import minerApi from "../../apis/minerApi";
-import msgBox from "../../js/msgBox";
+import notification from "antd/lib/notification";
 
 class MinerStore {
 
@@ -14,7 +14,10 @@ class MinerStore {
 				this.list = result.obj
 			})
 			.catch((error) => {
-				msgBox.error('加载矿工列表失败！', utils.getErrorMessage(error));
+				notification.error({
+					message: '加载矿工数据失败',
+					description: utils.getErrorMessage(error)
+				})
 			})
 	}
 

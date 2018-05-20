@@ -1,10 +1,10 @@
-import {observable, action, computed} from 'mobx';
+import {action, computed, observable} from 'mobx';
 import {localStore} from 'jeselvmo';
-import {LOGIN_USER, TOKEN} from "../js/constants";
+import {TOKEN} from "../js/constants";
 import systemApi from "../apis/systemApi";
-import msgBox from "../js/msgBox";
 import utils from "../js/utils";
 import routerHistory from "../js/routerHistory";
+import {notification} from 'antd';
 
 class AppStore {
 
@@ -26,7 +26,10 @@ class AppStore {
 				this.loginUser = result.obj
 			})
 			.catch((error) => {
-				msgBox.error('获取用户信息失败！' + utils.getErrorMessage(error))
+				notification.error({
+					message: '获取用户信息失败!',
+					description: utils.getErrorMessage(error)
+				})
 			})
 	}
 

@@ -1,8 +1,8 @@
-import {observable, computed, action} from 'mobx';
+import {action, observable} from 'mobx';
 import mineApi from "../../apis/mineApi";
 import utils from "../../js/utils";
-import msgBox from "../../js/msgBox";
 import routerHistory from "../../js/routerHistory";
+import notification from "antd/lib/notification";
 
 
 class MineEditStore {
@@ -61,11 +61,18 @@ class MineEditStore {
 			token: mine.token,
 			config: JSON.stringify(mine.config)
 		}).then((result) => {
-			msgBox.success('保存成功！');
-			// 保存成功后，跳编辑页
-			routerHistory.push('edit/' + result.obj.id)
+			notification.success({
+				message: '保存成功！'
+			});
+			if (!mine.id) {
+				// 保存成功后，跳编辑页
+				routerHistory.push('edit/' + result.obj.id)
+			}
 		}).catch((error) => {
-			msgBox.error('保存失败！' + utils.getErrorMessage(error));
+			notification.success({
+				message: '保存失败！',
+				description: utils.getErrorMessage(error)
+			});
 		})
 	}
 

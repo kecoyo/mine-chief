@@ -1,23 +1,25 @@
-import {observable, computed, action} from 'mobx';
+import {action, observable} from 'mobx';
 import mineApi from "../../apis/mineApi";
 import utils from "../../js/utils";
+import notification from "antd/lib/notification";
 
 
 class MineStore {
 
 	@observable list = [];
-	@observable message = '';
+	@observable pagination = {total: 200};
 
 	@action
 	fetchList() {
-		let {id, name, ips, token, config} = this;
 		mineApi.list()
 			.then((result) => {
 				this.list = result.obj
 			})
 			.catch((error) => {
-				console.log(error);
-				this.errorMessage = utils.getErrorMessage(error);
+				notification.error({
+					message: '加载矿场数据失败',
+					description: utils.getErrorMessage(error)
+				})
 			})
 	}
 

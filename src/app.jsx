@@ -3,7 +3,7 @@ import utils from './js/utils';
 import Router from './router';
 import './styles/global.scss';
 import appStore from "./stores/appStore";
-import msgBox from "./js/msgBox"; // Global styles
+import {notification} from 'antd';
 
 console.log(utils);
 
@@ -17,13 +17,16 @@ $.ajaxSetup({
 	},
 	complete: function (xhr) {
 		if (xhr.status == 450) {
-			msgBox.alert(JSON.parse(xhr.responseText).message)
-				.then(() => {
-					location.hash = '/login';
-				});
-
+			alert(JSON.parse(xhr.responseText).message);
+			location.hash = '/login';
 		}
 	}
+});
+
+notification.config({
+	placement: 'topRight',
+	bottom: 50,
+	duration: 3,
 });
 
 /**
