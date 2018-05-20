@@ -25,7 +25,7 @@ export default class MineEdit extends Component {
 								<form className="form-horizontal group-border hover-stripped" role="form" id="validate"
 									  noValidate="novalidate">
 									<div className="form-group">
-										<label className="col-lg-2 control-label">矿工名称</label>
+										<label className="col-lg-2 control-label">矿场名称</label>
 										<div className="col-lg-10">
 											<input type="text" className="form-control required" value={mine.name}
 												   onChange={e => mine.name = e.target.value}/>
@@ -49,71 +49,40 @@ export default class MineEdit extends Component {
 										</div>
 									</div>
 									<div className="form-group">
-										<div className="table-responsive">
-											<table className="table table-striped">
-												<thead>
-												<tr>
-													<th className="per15">机器型号</th>
-													<th className="per10">最高温度</th>
-													<th className="per10">报警次数</th>
-													<th className="per10">最低算力</th>
-													<th className="per10">报警次数</th>
-													<th className="per10">无连接报警次数</th>
-													<th className="per10">掉线报警次数</th>
-												</tr>
-												</thead>
-												<tbody>
-												{mine.config.map((o) => (<tr key={o.type}>
-													<td>
-														<input id="token" name="ipStr" type="text" value={o.type}
-															   className="form-control ui-spinner-input"/>
-													</td>
-													<td>
-														<input id="token" name="ipStr" type="number" value={o.maxTemp}
-															   className="form-control ui-spinner-input"
-															   onChange={e => o.maxTemp = e.target.value}/>
-													</td>
-													<td>
-														<input id="token" name="ipStr" type="number" value={o.tempTimes}
-															   className="form-control ui-spinner-input"
-															   onChange={e => o.tempTimes = e.target.value}/>
-													</td>
-													<td>
-														<input id="token" name="ipStr" type="number" value={o.minRate}
-															   className="form-control ui-spinner-input"
-															   onChange={e => o.minRate = e.target.value}/>
-													</td>
-													<td>
-														<input id="token" name="ipStr" type="number" value={o.rateTimes}
-															   className="form-control ui-spinner-input"
-															   onChange={e => o.rateTimes = e.target.value}/>
-													</td>
-													<td>
-														<input id="token" name="ipStr" type="number"
-															   className="form-control ui-spinner-input"
-															   value={o.canNotConnTimes}
-															   onChange={e => o.canNotConnTimes = e.target.value}/>
-													</td>
-													<td>
-														<input id="token" name="ipStr" type="number"
-															   className="form-control ui-spinner-input"
-															   value={o.offlineTimes}
-															   onChange={e => o.offlineTimes = e.target.value}/>
-													</td>
-												</tr>))}
-												</tbody>
-											</table>
+										<label className="col-lg-2 control-label"></label>
+										<div className="col-lg-10">
+											<label className="checkbox">
+													<input type="checkbox" name="restar" id="restart"  />
+												无法连接矿池，掉线或算力低于70%重启矿工?
+											</label>
 										</div>
 									</div>
 
 
+
 									<div className="form-group">
-										<div className="col-lg-offset-2 pull-right">
-											<button className="btn btn-primary mr15" type="button"
+
+										<div className="col-lg-offset-0 pull-right">
+											<button className="btn btn-success mr15" type="button"
 													onClick={() => this.store.saveOrUpdate()}>
 												<i className="fa-ok"/> 保存
 											</button>
 										</div>
+
+										<div className="col-lg-offset-0 pull-right">
+											<button className="btn btn-primary mr15" type="button"
+													onClick={() => this.store.changeToken(this.store.mine.id)}>
+												<i className="st-reload"/> 重置token
+											</button>
+										</div>
+
+										<div className="col-lg-offset-0 pull-right">
+											<button className="btn btn-danger mr15" type="button"
+													onClick={() => this.store.delete(this.store.mine.id)}>
+												<i className="fa-remove"/> 删除
+											</button>
+										</div>
+
 									</div>
 								</form>
 							</div>

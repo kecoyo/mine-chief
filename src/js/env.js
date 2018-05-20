@@ -9,7 +9,7 @@
 const development = {
 	name: 'development',
 	dir: 'test',
-	apiPath: 'http://47.75.178.220:9095/api/kuangzhang/',
+	apiPath: 'https://api.kuangzhang.site/kuangzhang/',
 };
 
 
@@ -17,7 +17,7 @@ const development = {
 const production = {
 	name: 'production',
 	dir: 'official',
-	apiPath: 'http://47.75.178.220:9095/api/kuangzhang/',
+	apiPath: 'https://api.kuangzhang.site/kuangzhang/',
 };
 
 module.exports = development;

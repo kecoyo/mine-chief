@@ -40,8 +40,10 @@ export default class Mine extends Component {
 				key: 'createTime',
 				render: (text)=> dateUtils.format(text, dateUtils.patterns.datetime)
 			}, {
-				title: '最近连接',
-				key: 'null',
+				title: '在线状态',
+				dataIndex: 'lastConnTime',
+				key: 'lastConnTime',
+				render: (text)=> text==null?"离线":dateUtils.format(text, dateUtils.patterns.datetime)
 			}, {
 				title: '配置',
 				key: 'action',
