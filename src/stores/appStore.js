@@ -4,7 +4,7 @@ import {TOKEN} from "../js/constants";
 import systemApi from "../apis/systemApi";
 import utils from "../js/utils";
 import routerHistory from "../js/routerHistory";
-import {notification} from 'antd';
+import notification from "antd/lib/notification";
 
 class AppStore {
 

@@ -3,7 +3,7 @@ import utils from './js/utils';
 import Router from './router';
 import './styles/global.scss';
 import appStore from "./stores/appStore";
-import {notification} from 'antd';
+import notification from "antd/lib/notification";
 
 console.log(utils);
 

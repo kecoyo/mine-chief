@@ -1,16 +1,12 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
+import cs from 'classnames';
 import Content from '../layout/Content';
 import MinerStore from "./MinerStore";
 import Panel from "../../components/Panel";
-import Button from "antd/lib/button";
-import {Row, Col, Table, Checkbox,FormItem} from 'antd';
-
-
-const CheckboxGroup = Checkbox.Group;
-
-const plainOptions = ['Apple', 'Pear', 'Orange'];
-const defaultCheckedList = ['Apple', 'Orange'];
+import Row from "../../components/Row";
+import Col from "../../components/Col";
+import DataTable from "../../components/DataTable";
 
 
 @observer
@@ -18,77 +14,59 @@ export default class Miner extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			columns: [
+				{title: '矿场', data: 'mineName'},
+				{title: '机器类型', data: 'type'},
+				{title: '矿工名称', data: 'netProtocol'},
+				{title: 'MAC地址', data: 'macAddress'},
+				{title: 'IP地址', data: 'ip'},
+				{title: '温度', data: 'temp'},
+				{title: '算力', data: 'rate'},
+				{title: '异常信息', data: 'updateTime'},
+				{title: '运行时间', data: 'elapsed'},
+			]
+		};
 		this.store = new MinerStore();
-		this.columns = [
-			{
-				title: '矿场',
-				dataIndex: 'mineName',
-				key: 'mineName'
-			}, {
-				title: '机器类型',
-				dataIndex: 'type',
-				key: 'type'
-			}, {
-				title: '矿工名称',
-				dataIndex: 'netProtocol',
-				key: 'netProtocol'
-			}, {
-				title: 'MAC地址',
-				dataIndex: 'macAddress',
-				key: 'macAddress'
-			}, {
-				title: 'IP地址',
-				dataIndex: 'ip',
-				key: 'ip'
-			}, {
-				title: '温度',
-				dataIndex: 'temp',
-				key: 'temp'
-			}, {
-				title: '算力',
-				dataIndex: 'rate',
-				key: 'rate'
-			}, {
-				title: '异常信息',
-				dataIndex: 'updateTime',
-				key: 'updateTime'
-			}, {
-				title: '运行时间',
-				dataIndex: 'elapsed',
-				key: 'elapsed'
-			}, {
-				title: '操作',
-				key: 'action',
-				render: (text, record) => (
-					<Button>忽略</Button>
-				)
-			},
-		];
 	}
-
-	state = {
-		checkedList: defaultCheckedList,
-		indeterminate: true,
-		checkAll: false,
-	};
 
 	render() {
 		return (
 			<Content>
 				<Row>
 					<Col>
-						<Checkbox
-							indeterminate={this.state.indeterminate}
-							checked={this.state.checkAll}
-						>
-							Check all
-						</Checkbox>
-						<CheckboxGroup options={plainOptions} value={this.state.checkedList} />
-
-					</Col>
-					<Col>
 						<Panel whiteBg plain>
-							<Table columns={this.columns} dataSource={this.store.list.list} pagination={false}/>
+							<form className="form-horizontal group-border hover-stripped" role="form">
+								{this.store.searchInfo.map((item, i) => (
+									<div className="form-group" key={i}>
+										<label className="col-lg-2 col-md-2 col-sm-12 control-label">
+											{item.name}
+										</label>
+										<label className="checkbox-inline"
+											   onClick={(e) => this.handleChecked(e, item)}>
+											<div
+												className={cs('icheckbox_flat-blue', {'checked': this.isItemAllChecked(item)})}>
+												<input type="checkbox" value=""/>
+												<ins className="iCheck-helper"></ins>
+											</div>
+											全部
+										</label>
+										{Object.keys(item.value).map((k, j) => (
+											<label className="checkbox-inline" key={j}
+												   onClick={(e) => this.handleChecked(e, item, k)}>
+												<div className={cs('icheckbox_flat-blue', {'checked': item.status[k]})}>
+													<input type="checkbox" value=""/>
+													<ins className="iCheck-helper"></ins>
+												</div>
+												{k} (<span className="color-pink">{item.value[k]}</span>)
+											</label>
+										))}
+									</div>
+								))}
+							</form>
+						</Panel>
+						<Panel>
+							<DataTable columns={this.state.columns} dataSource={this.store.list}/>
 						</Panel>
 					</Col>
 				</Row>
@@ -99,4 +77,27 @@ export default class Miner extends Component {
 	componentDidMount() {
 		this.store.fetchList()
 	}
+
+	isItemAllChecked(item) {
+		for (let k in item.status) {
+			if (!item.status[k]) {
+				return false
+			}
+		}
+		return true
+	}
+
+	handleChecked(e, item, k) {
+		e.preventDefault();
+		if (k) {
+			item.status[k] = !item.status[k];
+		} else {
+			let status = !this.isItemAllChecked(item);
+			for (let k2 in item.status) {
+				item.status[k2] = status
+			}
+		}
+		this.filterData()
+	}
+
 }
