@@ -88,8 +88,7 @@ export default class LoginForm extends Component {
 			errorClass: 'help-block',
 			rules: {
 				username: {
-					required: true,
-					email: true
+					required: true
 				},
 				password: {
 					required: true,

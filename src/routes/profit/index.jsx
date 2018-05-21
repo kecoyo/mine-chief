@@ -11,7 +11,7 @@ export default class Profit extends Component {
 			<Content>
 				<div className="row">
 					<div className="col-lg-12">
-						token: {appStore.token}
+						token: {appStore.token}aaa
 					</div>
 				</div>
 			</Content>

@@ -15,26 +15,7 @@ class MineEditStore {
 			name: '',
 			ips: '',
 			token: '',
-			config: [
-				{
-					type: "Antminer T9+",
-					maxTemp: 98,
-					tempTimes: 5,
-					minRate: 9000,
-					rateTimes: 1,
-					canNotConnTimes: 1,
-					offlineTimes: 1,
-				},
-				{
-					type: "Antminer L3+",
-					maxTemp: 98,
-					tempTimes: 5,
-					minRate: 9000,
-					rateTimes: 1,
-					canNotConnTimes: 1,
-					offlineTimes: 1,
-				}
-			],
+			restart:true
 		}
 	}
 
@@ -43,8 +24,35 @@ class MineEditStore {
 		mineApi.findById({id})
 			.then((result) => {
 				let mine = result.obj;
-				mine.config = JSON.parse(mine.config);
 				this.mine = mine
+			})
+			.catch((error) => {
+				console.log(utils.getErrorMessage(error))
+			})
+	}
+
+	@action
+	delete(id) {
+		mineApi.delete({id})
+			.then((result) => {
+				notification.success({
+					message: '删除成功！'
+				});
+				location.href ="/#/home/mine"
+			})
+			.catch((error) => {
+				console.log(utils.getErrorMessage(error))
+			})
+	}
+
+	@action
+	changeToken(id) {
+		mineApi.changeToken({id})
+			.then((result) => {
+				notification.success({
+					message: result.message
+				});
+				this.mine.token = result.obj ;
 			})
 			.catch((error) => {
 				console.log(utils.getErrorMessage(error))
@@ -59,7 +67,7 @@ class MineEditStore {
 			name: mine.name,
 			ips: mine.ips,
 			token: mine.token,
-			config: JSON.stringify(mine.config)
+			restart: mine.restart
 		}).then((result) => {
 			notification.success({
 				message: '保存成功！'

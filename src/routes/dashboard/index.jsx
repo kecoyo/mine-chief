@@ -1,6 +1,7 @@
 import React from 'react';
 import Content from '../layout/Content';
 
+
 const module = {
 	name: 'Dashboard',
 	iconCls: 'im-screen',
