@@ -7,6 +7,7 @@ import Panel from "../../components/Panel";
 import Row from "../../components/Row";
 import Col from "../../components/Col";
 import DataTable from "../../components/DataTable";
+import dtUtils from "../../js/dtUtils";
 
 
 @observer
@@ -25,9 +26,17 @@ export default class Miner extends Component {
 				{title: '算力', data: 'rate'},
 				{title: '异常信息', data: 'updateTime'},
 				{title: '运行时间', data: 'elapsed'},
+				{title: '操作', render: this.renderActions, sorting: false},
 			]
 		};
 		this.store = new MinerStore();
+	}
+
+	renderActions(data, type, row) {
+		let actions = [
+			{text: '忽略', theme: 'danger'},
+		];
+		return dtUtils.renderActions(actions)
 	}
 
 	render() {
@@ -97,7 +106,7 @@ export default class Miner extends Component {
 				item.status[k2] = status
 			}
 		}
-		this.filterData()
+		this.store.filterData()
 	}
 
 }
