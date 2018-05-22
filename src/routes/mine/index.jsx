@@ -41,9 +41,8 @@ export default class Mine extends Component {
 				render: (text)=> dateUtils.format(text, dateUtils.patterns.datetime)
 			}, {
 				title: '在线状态',
-				dataIndex: 'lastConnTime',
-				key: 'lastConnTime',
-				render: (text)=> text==null?"离线":dateUtils.format(text, dateUtils.patterns.datetime)
+				dataIndex: 'timeDiff',
+				key: 'timeDiff',
 			}, {
 				title: '配置',
 				key: 'action',

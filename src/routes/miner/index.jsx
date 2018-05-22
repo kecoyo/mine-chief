@@ -19,13 +19,13 @@ export default class Miner extends Component {
 			columns: [
 				{title: '矿场', data: 'mineName'},
 				{title: '机器类型', data: 'type'},
-				{title: '矿工名称', data: 'netProtocol'},
 				{title: 'MAC地址', data: 'macAddress'},
 				{title: 'IP地址', data: 'ip'},
 				{title: '温度', data: 'temp'},
 				{title: '算力', data: 'rate'},
-				{title: '异常信息', data: 'updateTime'},
+				{title: '异常信息', data: 'message'},
 				{title: '运行时间', data: 'elapsed'},
+				{title: '最后更新时间', data: 'timeDiff'},
 				{title: '操作', render: this.renderActions, sorting: false},
 			]
 		};
