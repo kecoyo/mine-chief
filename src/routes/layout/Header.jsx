@@ -15,8 +15,8 @@ export default class Header extends Component {
 						<div className="navbar-header">
 							<a className="navbar-brand" href="./#/home">
 								<i className="im-windows8 text-logo-element animated bounceIn"></i>
-								<span className="text-logo">spr</span>
-								<span className="text-slogan">flat</span>
+								<span className="text-logo">矿长</span>
+								<span className="text-slogan">站</span>
 							</a>
 						</div>
 						<nav className="top-nav" role="navigation">
