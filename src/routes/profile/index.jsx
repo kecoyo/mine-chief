@@ -6,7 +6,6 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import Panel from "../../components/Panel";
 import ProfileStore from "./ProfileStore";
-import userApi from "../../apis/userApi";
 
 @observer
 export default class Profile extends Component {

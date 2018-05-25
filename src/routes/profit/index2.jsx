@@ -21,6 +21,36 @@ export default class Profit extends Component {
 									className="im-close"></i></a></div>
 							</div>
 							<div className="panel-body">
+								<div className="form-group">
+									<div className="col-lg-12 col-md-12">
+										<div className="row">
+											<div className="col-lg-3 col-md-3">
+												<select className="form-control select2" >
+													<option value="btc">BTC</option>
+													<option value="ltc">LTC</option>
+													<option value="eth">ETH</option>
+													<option value="zec">ZEC</option>
+												</select>
+											</div>
+
+											<div className="col-md-3 col-md-3">
+												<input type="text" className="form-control" placeholder="钱包说明" />
+											</div>
+
+											<div className="col-md-4 col-md-4">
+												<input type="text" className="form-control" placeholder="钱包地址" />
+											</div>
+
+											<div className="col-md-2 col-md-2">
+												<button type="button" className="ant-btn"><span>保存</span></button>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												<button type="button" className="ant-btn"><span>刷新</span></button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="panel-body">
 								<table className="table table-bordered">
 									<thead>
 									<tr>

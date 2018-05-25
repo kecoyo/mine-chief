@@ -1,8 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import dashboardStore from "../../stores/dashboardStore";
-import Row from "../../components/Row";
-import Col from "../../components/Col";
 
 @observer
 export default class LogList extends React.Component {
@@ -47,16 +45,6 @@ export default class LogList extends React.Component {
 									</tbody>
 								</table>
 							</div>
-							<Row>
-								<Col className="pull-right">
-									<ul className="pager">
-										<li><a href="#">Previous</a>
-										</li>
-										<li><a href="#">Next</a>
-										</li>
-									</ul>
-								</Col>
-							</Row>
 						</div>
 					</div>
 				</div>
