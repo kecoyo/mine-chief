@@ -1,4 +1,5 @@
 import React from 'react';
+import {PropTypes} from 'prop-types';
 
 export default class Col extends React.PureComponent {
 
@@ -10,4 +11,8 @@ export default class Col extends React.PureComponent {
 		)
 	}
 }
+
+Col.propTypes = {
+	lg: PropTypes.number
+};
 
