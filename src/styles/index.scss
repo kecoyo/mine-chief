@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+@import "~antd/lib/style/index.css";
+@import "~antd/lib/notification/style/index.css";
+@import "~antd/lib/modal/style/index.css";
+
+.ant-notification {
+	z-index: 10100;
+}
+
 .tableResponsive {
 	overflow: hidden;
 	width: 100%;
@@ -20,11 +28,12 @@
 	opacity: 0.5;
 }
 
-.icheckbox_flat-blue{
+.icheckbox_flat-blue {
 	position: relative;
 
-	input{
-		position: absolute; opacity: 0;
+	input {
+		position: absolute;
+		opacity: 0;
 	}
 }
 

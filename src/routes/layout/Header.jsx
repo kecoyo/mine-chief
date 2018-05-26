@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
-import navStore from "../../stores/navStore";
-import routerHistory from "../../js/routerHistory";
 import appStore from "../../stores/appStore";
 
 @observer
 export default class Header extends Component {
 
 	render() {
+		let num = (appStore.loginUser.id % 12) + 1;
 		return (
 			<div id="header">
 				<div className="container-fluid">
@@ -23,14 +22,14 @@ export default class Header extends Component {
 							<ul className="nav navbar-nav pull-right">
 								<li className="dropdown">
 									<a href="#" data-toggle="dropdown">
-										<img className="user-avatar" src="assets/img/avatars/48.jpg"
+										<img className="user-avatar"
+											 src={`assets/img/avatars/${num}.jpg`}
 											 alt="SuggeElson"/>{appStore.loginUser.phone}
 									</a>
 									<ul className="dropdown-menu right" role="menu">
 										<li><a href="#/home/profile"><i className="st-user"></i> Profile</a>
 										</li>
-										<li><a href="#/home/settings"><i className="st-settings"></i> Settings</a>
-										</li>
+										{/*<li><a href="#/home/settings"><i className="st-settings"></i> Settings</a></li>*/}
 										<li><a href="javascript:void()" onClick={() => appStore.logoff()}><i
 											className="im-exit"></i> Logout</a>
 										</li>

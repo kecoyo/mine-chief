@@ -23,4 +23,6 @@ Col.propTypes = {
 	md: PropTypes.number,
 	lg: PropTypes.number,
 };
-Col.defaultProps = {};
+Col.defaultProps = {
+	lg: 12
+};

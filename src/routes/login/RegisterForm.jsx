@@ -46,13 +46,21 @@ export default class RegisterForm extends Component {
 							   value={password} onChange={(e) => this.setState({password: e.target.value})}/>
 						<i className="ec-locked s16 left-input-icon"></i>
 					</div>
-					<div className="col-lg-12 mt15">
+				</div>
+				<div className="form-group">
+					<div className="col-lg-12">
 						<input type="password" className="form-control left-icon" id="password2" name="password2"
 							   placeholder="确认密码" value={password2}
 							   onChange={(e) => this.setState({password2: e.target.value})}/>
 						<i className="ec-locked s16 left-input-icon"></i>
 					</div>
 				</div>
+				{/*<div className="form-group">*/}
+					{/*<div className="col-lg-12">*/}
+						{/*<input type="text" className="form-control input-small"/>*/}
+						{/*<input type="text" className="form-control input-small"/>*/}
+					{/*</div>*/}
+				{/*</div>*/}
 				<div className="form-group">
 					<div className="col-lg-12">
 						<button className="btn btn-success btn-block" type="button"

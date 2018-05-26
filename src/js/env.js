@@ -9,7 +9,7 @@
 const development = {
 	name: 'development',
 	dir: 'test',
-	apiPath: 'http://192.168.31.227:9095/api/kuangzhang/',
+	apiPath: 'https://api.kuangzhang.site/kuangzhang/',
 };
 
 

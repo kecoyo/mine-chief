@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Content from '../layout/Content';
-import AddWalletModal from "./AddWalletModal";
+import EditWalletModal from "./EditWalletModal";
+import profitStore from "../../stores/profitStore";
+import Panel from "../../components/Panel";
+import WalletPanel from "./WalletPanel";
+import walletApi from "../../apis/walletApi";
+import notify from "../../js/notify";
+import utils from "../../js/utils";
 
 @observer
 export default class Profit extends Component {
@@ -11,65 +17,14 @@ export default class Profit extends Component {
 			<Content toolbar={this.renderToolbar.bind(this)}>
 				<div className="row">
 					<div className="col-lg-12">
-						<div className="panel panel-primary toggle panelRefresh panelClose" id="spr_0">
-							<div className="panel-heading">
-								<h4 className="panel-title">錢包管理</h4>
-								<div className="panel-controls panel-controls-hide" style={{display: "none"}}><a href="#"
-																											  className="panel-refresh"><i
-									className="im-spinner6"></i></a><a href="#" className="toggle panel-minimize"><i
-									className="im-minus"></i></a><a href="#" className="panel-close"><i
-									className="im-close"></i></a></div>
-							</div>
-							<div className="panel-body">
-								<table className="table table-bordered">
-									<thead>
-									<tr>
-										<th className="per5">
-											#
-										</th>
-										<th className="per40">Employe</th>
-										<th className="per40">Position</th>
-										<th className="per15">Salary</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td>
-											1
-										</td>
-										<td>Jacob Olsen</td>
-										<td>Developer</td>
-										<td>2530$</td>
-									</tr>
-									<tr>
-										<td>
-											2
-										</td>
-										<td>Lara James</td>
-										<td>SEO</td>
-										<td>3700$</td>
-									</tr>
-									<tr>
-										<td>
-											3
-										</td>
-										<td>Steve Sidwell</td>
-										<td>Photographer</td>
-										<td>1340$</td>
-									</tr>
-									<tr>
-										<td>
-											4
-										</td>
-										<td>Elena Dobrev</td>
-										<td>Project manger</td>
-										<td>5600$</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<AddWalletModal ref={e => this.addWalletModal = e}/>
+						{profitStore.walletList.map((o, i) => (
+							<WalletPanel
+								key={i}
+								wallet={o}
+								onEdit={this.handleEdit.bind(this)}
+								onClose={this.handleClose.bind(this)}/>
+						))}
+						<EditWalletModal ref={e => this._editWalletModal = e} onOk={this.refresh.bind(this)}/>
 					</div>
 				</div>
 			</Content>
@@ -87,7 +42,38 @@ export default class Profit extends Component {
 		]
 	}
 
-	addWallet(){
-		this.addWalletModal.show()
+	componentDidMount() {
+		this.refresh()
 	}
+
+	refresh() {
+		profitStore.fetchWalletList()
+	}
+
+	addWallet() {
+		this._editWalletModal.show()
+	}
+
+	handleEdit(wallet) {
+		this._editWalletModal.show(wallet)
+	}
+
+	handleClose(wallet) {
+		walletApi.delete({
+			id: wallet.id
+		})
+			.then((result) => {
+				notify.success({
+					message: '删除钱包成功！'
+				});
+				profitStore.fetchWalletList();
+			})
+			.catch((error) => {
+				notify.error({
+					message: '删除钱包失败！',
+					description: utils.getErrorMessage(error)
+				})
+			})
+	}
+
 }

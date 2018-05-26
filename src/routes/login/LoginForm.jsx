@@ -4,6 +4,10 @@ import systemApi from "../../apis/systemApi";
 import utils from "../../js/utils";
 import {localStore} from "jeselvmo";
 import appStore from "../../stores/appStore";
+import md5 from "js-md5";
+import Check from "./Check";
+
+const rememberLoginInfo = 'remember-login-info';
 
 @observer
 export default class LoginForm extends Component {
@@ -11,12 +15,16 @@ export default class LoginForm extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
+		let loginInfo = localStore.get(rememberLoginInfo) || {
 			username: '',
 			password: '',
-
+			remember: false,
+		};
+		this.state = {
+			...loginInfo,
 			isFetching: false,
 			errorMessage: '',
+
 		}
 	}
 
@@ -44,9 +52,8 @@ export default class LoginForm extends Component {
 				</div>
 				<div className="form-group">
 					<div className="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-						<label className="checkbox">
-							<input type="checkbox" name="remember" id="remember" value="option"/>记住我?
-						</label>
+						<Check checked={this.state.remember} text="记住我?"
+							   onChange={(e) => this.setState({remember: e.target.checked})}/>
 					</div>
 					<div className="col-lg-6 col-md-6 col-sm-6 col-xs-4">
 						{errorMessage && <label className="loginErrorInfo">
@@ -65,9 +72,9 @@ export default class LoginForm extends Component {
 	componentDidMount() {
 
 		//for custom checkboxes
-		$('input').not('.noStyle').iCheck({
-			checkboxClass: 'icheckbox_flat-green'
-		});
+		// $('input').not('.noStyle').iCheck({
+		// 	checkboxClass: 'icheckbox_flat-green'
+		// });
 
 		//validate login form
 		$("#login-form").validate({
@@ -135,7 +142,7 @@ export default class LoginForm extends Component {
 
 		let valid = $("#login-form").valid();
 		if (valid) {
-			let {username, password} = this.state;
+			let {username, password, remember} = this.state;
 			this.setState({isFetching: true});
 			systemApi.login({
 				mailOrPhone: username,
@@ -146,6 +153,20 @@ export default class LoginForm extends Component {
 				});
 				appStore.token = result.obj;
 				location.hash = '/home';
+
+				// 记住密码
+				let loginInfo = localStore.get(rememberLoginInfo) || {password: ''};
+				console.log(remember);
+				if (remember) {
+					if (password != loginInfo.password) {
+						password = md5(password + "www.kuangzhang.site");
+					}
+					localStore.set(rememberLoginInfo, {username, password, remember})
+				} else {
+					console.log(rememberLoginInfo);
+					localStore.remove(rememberLoginInfo)
+				}
+
 			}).catch((error) => {
 				this.setState({
 					isFetching: false,

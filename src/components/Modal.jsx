@@ -2,35 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cs from 'classnames';
 import $ from 'jquery';
-
-class ModalBody extends React.Component {
-
-	static className = 'ModalBody';
-
-	render() {
-		let {style} = this.props;
-		return (
-			<div className="modal-body" style={style}>
-				{this.props.children}
-			</div>
-		)
-	}
-
-}
-
-class ModalFooter extends React.Component {
-
-	static className = 'ModalFooter';
-
-	render() {
-		return (
-			<div className="modal-footer">
-				{this.props.children}
-			</div>
-		)
-	}
-
-}
+import Button from "./Button";
 
 /**
  * 弹框组件
@@ -45,71 +17,51 @@ export default class Modal extends React.Component {
 		let {theme, title, size} = this.props;
 
 		return (
-			<div ref={(e) => this._modal = e} className={cs('modal', 'modal-' + theme, 'fade', 'in')}>
-				<div className={cs("modal-dialog", "modal-dialog-center", `modal-${size}`)}>
+			<div ref={(e) => this._modal = e}
+				 className={cs('modal', 'modal-' + theme, 'fade', 'in')}
+				 tabIndex="-1" role="dialog" aria-hidden="true">
+				<div className={cs("modal-dialog", `modal-${size}`)}>
 					<div className="modal-content">
 						<div className="modal-header">
-							<button type="button" className="close" onClick={this.close.bind(this)}>
+							<button type="button" className="close" onClick={this.handleCancel.bind(this)}>
 								<span aria-hidden="true">&times;</span></button>
 							<h4 className="modal-title">{title}</h4>
 						</div>
-						{this.renderBody()}
-						{this.renderFooter()}
+						<div className="modal-body">
+							{this.props.children}
+						</div>
+						<div className="modal-footer">
+							<Button theme={'default'} onClick={this.handleCancel.bind(this)}>取消</Button>
+							<Button theme={'primary'} onClick={this.handleOk.bind(this)}>确定</Button>
+						</div>
 					</div>
 				</div>
 			</div>
 		)
 	}
 
-	renderBody() {
-		let {children, show} = this.props;
-
-		if(!show){
-			return null;
-		}
-
-		let body = null;
-		React.Children.forEach(children, (child) => {
-			if (child && child.type && typeof child.type === 'function' && child.type.className === 'ModalBody') {
-				body = child
-			}
-		});
-
-		if (!body) {
-			body = (
-				<Modal.Body>
-					{children}
-				</Modal.Body>
-			)
-		}
-
-		return body;
-	}
-
-	renderFooter() {
-		let {children} = this.props;
-		let footer = null;
-		React.Children.forEach(children, (child) => {
-			if (child && child.type && typeof child.type === 'function' && child.type.className === 'ModalFooter') {
-				footer = child
-			}
-		});
-
-		if (footer) {
-			return footer;
-		}
-		return null
-	}
-
 	componentDidMount() {
-		if (this.props.show) {
+		if (this.props.visable) {
 			this.show()
 		}
+
+		//call center modal function after modal is show
+		$('.modal').on('show.bs.modal', (e) => {
+			//center modal
+		});
+		$(this._modal).on('hidden.bs.modal', (e) => {
+			console.log('// do something...')
+			this.handleCancel()
+		});
+	}
+
+	componentDidUpdate() {
+		//get settings object
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.show !== nextProps.show) {
-			if (nextProps.show) {
+		if (this.props.visable !== nextProps.visable) {
+			if (nextProps.visable) {
 				this.show()
 			} else {
 				this.hide();
@@ -122,37 +74,40 @@ export default class Modal extends React.Component {
 			backdrop: this.props.backdrop,
 			keyboard: this.props.keyboard,
 			show: true,
-		})
+		});
 	}
 
 	hide() {
 		$(this._modal).modal('hide');
 	}
 
-	close() {
-		let {onHide} = this.props;
-		onHide && onHide()
+	handleCancel() {
+		if (this.props.onCancel) {
+			this.props.onCancel()
+		}
+	}
+
+	handleOk() {
+		if (this.props.onOk) {
+			this.props.onOk()
+		}
 	}
 }
 
 Modal.propTypes = {
-	show: PropTypes.bool,	// 显示模态框
+	visible: PropTypes.bool,	// 显示模态框
 	backdrop: PropTypes.bool,	// 单击弹框外是否关闭
 	keyboard: PropTypes.bool, // 键盘上的 esc 键被按下时关闭模态框
-
 	theme: PropTypes.string,	// 主题样式
 	title: PropTypes.string,
+	onCancel: PropTypes.func,
+	onOk: PropTypes.func
 };
 
 Modal.defaultProps = {
-	show: false,
-	backdrop: false,
+	visable: false,
+	backdrop: true,
 	keyboard: true,
-
 	theme: 'default',
 	title: 'modal title'
 };
-
-
-Modal.Body = ModalBody;
-Modal.Footer = ModalFooter;

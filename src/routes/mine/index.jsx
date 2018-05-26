@@ -3,12 +3,12 @@ import {observer} from 'mobx-react';
 import Content from '../layout/Content';
 import MineStore from "./MineStore";
 import routerHistory from "../../js/routerHistory";
-import Table from 'antd/lib/table';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import Button from 'antd/lib/button';
 import Panel from "../../components/Panel";
 import {dateUtils} from 'jeselvmo'
+import Table from "../../components/Table";
+import Row from "../../components/Row";
+import Col from "../../components/Col";
+import Button from "../../components/Button";
 
 
 @observer
@@ -20,32 +20,25 @@ export default class Mine extends Component {
 		this.columns = [
 			{
 				title: '矿工名称',
-				dataIndex: 'name',
-				key: 'name',
+				data: 'name',
 			}, {
 				title: '总机器数',
-				dataIndex: 'mineNum',
-				key: 'mineNum',
+				data: 'mineNum',
 			}, {
 				title: '可连接数',
-				dataIndex: 'onlineNum',
-				key: 'onlineNum',
+				data: 'onlineNum',
 			}, {
 				title: 'Token',
-				dataIndex: 'token',
-				key: 'token',
+				data: 'token',
 			}, {
 				title: '创建时间',
-				dataIndex: 'createTime',
-				key: 'createTime',
-				render: (text)=> dateUtils.format(text, dateUtils.patterns.datetime)
+				data: 'createTime',
+				render: (text) => dateUtils.format(text, dateUtils.F_DATETIME)
 			}, {
 				title: '在线状态',
-				dataIndex: 'timeDiff',
-				key: 'timeDiff',
+				data: 'timeDiff',
 			}, {
 				title: '配置',
-				key: 'action',
 				render: (text, record) => {
 					return <Button onClick={this.edit.bind(this, record.id)}>配置</Button>
 				}
@@ -59,7 +52,7 @@ export default class Mine extends Component {
 				<Row>
 					<Col>
 						<Panel whiteBg plain>
-							<Table columns={this.columns} dataSource={this.store.list} pagination={false}/>
+							<Table columns={this.columns} dataSource={this.store.list}/>
 						</Panel>
 					</Col>
 				</Row>
