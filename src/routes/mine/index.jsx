@@ -40,7 +40,7 @@ export default class Mine extends Component {
 			}, {
 				title: '配置',
 				render: (text, record) => {
-					return <Button onClick={this.edit.bind(this, record.id)}>配置</Button>
+					return <Button theme="primary" onClick={this.edit.bind(this, record.id)}>配置</Button>
 				}
 			},
 		];
