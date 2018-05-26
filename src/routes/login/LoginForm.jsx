@@ -47,7 +47,7 @@ export default class LoginForm extends Component {
 							   value={password} placeholder="密码"
 							   onChange={(e) => this.setState({password: e.target.value})}/>
 						<i className="ec-locked s16 left-input-icon"></i>
-						<span className="help-block"><a href="#"><small>忘记密码 ?</small></a></span>
+						{/* <span className="help-block"><a href="#"><small>忘记密码 ?</small></a></span> */}
 					</div>
 				</div>
 				<div className="form-group">

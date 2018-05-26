@@ -1,6 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import systemApi from "../../apis/systemApi";
 import utils from "../../js/utils";
+import notify from "../../js/notify";
+import {validator} from 'jeselvmo';
+
+const COUNT = 30;
 
 export default class RegisterForm extends Component {
 
@@ -12,59 +16,68 @@ export default class RegisterForm extends Component {
 			phone: '',
 			password: '',
 			password2: '',
+			code: '',
 
 			isFetching: false,
 			errorMessage: '',
 			successMessage: '',
+
+			isCounting: false, // 是否在倒计时
+			count: COUNT, //
 		}
 	}
 
 	render() {
-		let {email, phone, password, password2, errorMessage, successMessage} = this.state;
+		let { email, phone, password, password2, code, errorMessage, successMessage } = this.state;
 		return (
 			<form className="form-horizontal mt20" action="" id="register-form" role="form">
 				<div className="form-group">
 					<div className="col-lg-12">
 						<input id="email1" name="email" type="email" className="form-control left-icon"
-							   placeholder="邮箱地址"
-							   value={email} onChange={(e) => this.setState({email: e.target.value})}/>
+							placeholder="邮箱地址"
+							value={email} onChange={(e) => this.setState({ email: e.target.value })} />
 						<i className="ec-mail s16 left-input-icon"></i>
 					</div>
 				</div>
 				<div className="form-group">
 					<div className="col-lg-12">
 						<input id="phone" name="phone" type="text" className="form-control left-icon"
-							   placeholder="手机号码"
-							   value={phone} onChange={(e) => this.setState({phone: e.target.value})}/>
+							placeholder="手机号码"
+							value={phone} onChange={(e) => this.setState({ phone: e.target.value })} />
 						<i className="ec-mail s16 left-input-icon"></i>
 					</div>
 				</div>
 				<div className="form-group">
 					<div className="col-lg-12">
 						<input type="password" className="form-control left-icon" id="password1" name="password1"
-							   placeholder="密码"
-							   value={password} onChange={(e) => this.setState({password: e.target.value})}/>
+							placeholder="密码"
+							value={password} onChange={(e) => this.setState({ password: e.target.value })} />
 						<i className="ec-locked s16 left-input-icon"></i>
 					</div>
 				</div>
 				<div className="form-group">
 					<div className="col-lg-12">
 						<input type="password" className="form-control left-icon" id="password2" name="password2"
-							   placeholder="确认密码" value={password2}
-							   onChange={(e) => this.setState({password2: e.target.value})}/>
+							placeholder="确认密码" value={password2}
+							onChange={(e) => this.setState({ password2: e.target.value })} />
 						<i className="ec-locked s16 left-input-icon"></i>
 					</div>
 				</div>
-				{/*<div className="form-group">*/}
-					{/*<div className="col-lg-12">*/}
-						{/*<input type="text" className="form-control input-small"/>*/}
-						{/*<input type="text" className="form-control input-small"/>*/}
-					{/*</div>*/}
-				{/*</div>*/}
+				<div className="form-group">
+					<div className="col-lg-12">
+						<input type="text" className="form-control left-icon" id="code" name="code"
+							placeholder="验证码" value={code}
+							onChange={(e) => this.setState({ code: e.target.value })} />
+						<i className="ec-chat s16 left-input-icon"></i>
+						{this.state.isCounting
+							? <span className="help-block">{this.state.count}秒后重新发送验证码</span>
+							: <span className="help-block"><a href="javascript:" onClick={this.sendCode.bind(this)}>发送验证码</a></span>}
+					</div>
+				</div>
 				<div className="form-group">
 					<div className="col-lg-12">
 						<button className="btn btn-success btn-block" type="button"
-								onClick={this.register.bind(this)}>注册
+							onClick={this.register.bind(this)}>注册
 						</button>
 					</div>
 				</div>
@@ -124,7 +137,10 @@ export default class RegisterForm extends Component {
 				password2: {
 					required: true,
 					equalTo: "#password1"
-				}
+				},
+				code: {
+					required: true
+				},
 			},
 			messages: {
 				email: "Please enter your email",
@@ -137,6 +153,7 @@ export default class RegisterForm extends Component {
 					required: "Please enter the password again.",
 					equalTo: "Please enter the same password again."
 				},
+				code: "Please enter your code",
 			},
 			highlight: function (element) {
 				if ($(element).offsetParent().parent().hasClass('form-group')) {
@@ -177,7 +194,7 @@ export default class RegisterForm extends Component {
 
 		let valid = $("#register-form").valid();
 		if (valid) {
-			let {email, phone, password, password2} = this.state;
+			let { email, phone, password, password2, code } = this.state;
 			this.setState({
 				isFetching: true
 			});
@@ -185,7 +202,8 @@ export default class RegisterForm extends Component {
 				mail: email,
 				phone,
 				password,
-				repassword: password2
+				repassword: password2,
+				code
 			}).then((result) => {
 				this.setState({
 					isFetching: false,
@@ -202,6 +220,55 @@ export default class RegisterForm extends Component {
 			});
 
 		}
+	}
+
+	sendCode() {
+		let { phone } = this.state;
+
+		if(validator.isEmpty(phone)){
+			notify.warning({
+				message: '手机号不能为空！'
+			});
+			return;
+		}
+
+		systemApi.phoneCode({
+			phone
+		})
+			.then((result) => {
+				notify.success({
+					message: '验证码已发送！',
+				});
+				// 开始倒计时
+				this.startCounting();
+			})
+			.catch((error) => {
+				notify.error({
+					message: '验证码发送失败！',
+					description: utils.getErrorMessage(error)
+				})
+			})
+	}
+
+	// 开始计时
+	startCounting() {
+		this.setState({
+			isCounting: true,
+			count: COUNT
+		})
+		this.timer = setInterval(() => {
+			let count = this.state.count - 1;
+			if (count === -1) {
+				clearInterval(this.timer);
+				this.setState({
+					isCounting: false
+				})
+			} else {
+				this.setState({
+					count
+				})
+			}
+		}, 1000);
 	}
 
 }

@@ -24,6 +24,11 @@ const systemApi = {
 	 */
 	getLoginUser: (params) => request.get(env.apiPath + 'UserApi/info', params),
 
+	/**
+	 * 获取短信验证码
+	 * @param params { phone }
+	 */
+	phoneCode: (params) => request.get(env.apiPath + 'UserApi/phoneCode', params),
 };
 
 export default systemApi
