@@ -1,6 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import dashboardStore from "../../stores/dashboardStore";
+import {dateUtils} from "jeselvmo";
 
 @observer
 export default class LogList extends React.Component {
@@ -29,17 +30,15 @@ export default class LogList extends React.Component {
 										<th className="per10">消息时间</th>
 										<th className="per10">创建时间</th>
 										<th className="per50">信息</th>
-										<th className="per10">状态</th>
 									</tr>
 									</thead>
 									<tbody>
 									{logList.map((item, i)=>(
 										<tr key={i}>
 											<td>{item.messageType}</td>
-											<td>{item.messageTime}</td>
-											<td>{item.createTime}</td>
+											<td>{dateUtils.format(item.messageTime, dateUtils.F_DATETIME)}</td>
+											<td>{dateUtils.format(item.createTime, dateUtils.F_DATETIME)}</td>
 											<td>{item.info}</td>
-											<td>{item.status}</td>
 										</tr>
 									))}
 									</tbody>

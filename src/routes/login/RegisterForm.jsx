@@ -66,12 +66,9 @@ export default class RegisterForm extends Component {
 				<div className="form-group">
 					<div className="col-lg-12">
 						<input type="text" className="form-control left-icon" id="code" name="code"
-							placeholder="验证码" value={code}
+							placeholder="邀请码" value={code}
 							onChange={(e) => this.setState({ code: e.target.value })} />
 						<i className="ec-chat s16 left-input-icon"></i>
-						{this.state.isCounting
-							? <span className="help-block">{this.state.count}秒后重新发送验证码</span>
-							: <span className="help-block"><a href="javascript:" onClick={this.sendCode.bind(this)}>发送验证码</a></span>}
 					</div>
 				</div>
 				<div className="form-group">
