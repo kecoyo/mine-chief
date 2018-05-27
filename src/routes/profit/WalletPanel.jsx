@@ -12,7 +12,9 @@ export default class WalletPanel extends Component {
 
 	constructor(props) {
 		super(props);
-		this.list = []
+		this.state = {
+			list: []
+		}
 	}
 
 	render() {
@@ -33,7 +35,7 @@ export default class WalletPanel extends Component {
 					</tr>
 					</thead>
 					<tbody>
-					{this.list.map((o, i) => (
+					{this.state.list.map((o, i) => (
 						<tr key={i}>
 							<td>{dateUtils.format(o.createTime, dateUtils.F_DATETIME)}</td>
 							<td>{numberUtils.format(o.value, '0.00')}</td>
@@ -53,7 +55,9 @@ export default class WalletPanel extends Component {
 			coinType: wallet.coinType,
 			walletAddress: wallet.walletAddress  	// 1EPVMLMzTPMWBebqY3JNfWDbHAfJ362bS7
 		}).then(({obj}) => {
-			this.list = obj;
+			this.setState({
+				list: obj
+			})
 		}).catch((error) => {
 			notify.error({
 				message: '加载钱包信息失败！',
