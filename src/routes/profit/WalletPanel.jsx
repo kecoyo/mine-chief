@@ -38,7 +38,7 @@ export default class WalletPanel extends Component {
 					{this.state.list.map((o, i) => (
 						<tr key={i}>
 							<td>{dateUtils.format(o.createTime, dateUtils.F_DATETIME)}</td>
-							<td>{numberUtils.format(o.value, '0.00')}</td>
+							<td>{numberUtils.format(o.value, '0.00000000')}</td>
 							<td>{numberUtils.format(o.price, '0.00')}$</td>
 							<td>{numberUtils.format(o.price*6.4, '0.00')}￥</td>
 						</tr>

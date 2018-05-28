@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import cs from 'classnames';
 import {observer} from 'mobx-react';
 import navStore from "../../stores/navStore";
+import {TICKET} from "../../js/constants";
 
 @observer
 export default class Content extends Component {
@@ -21,9 +22,27 @@ export default class Content extends Component {
 										className={nav.icon}></i></a>
 								</li>
 							))}
+						<li key="#">
+							<a >扫码绑微信↓ <i className="ec-chat"></i></a>
+						</li>
 					</ul>
+
+
+
+					<div className="sidebar-panel">
+
+						<ul className="server-stats">
+							<li>
+								<div>
+									<img width="98%" src={"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+localStorage.getItem(TICKET).replace("\"","").replace("\"","")}></img>
+								</div>
+							</li>
+						</ul>
+
+					</div>
 				</div>
 			</div>
+
 		)
 	}
 }

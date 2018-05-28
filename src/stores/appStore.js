@@ -1,6 +1,6 @@
 import {action, computed, observable} from 'mobx';
 import {localStore} from 'jeselvmo';
-import {TOKEN} from "../js/constants";
+import {TICKET, TOKEN} from "../js/constants";
 import systemApi from "../apis/systemApi";
 import utils from "../js/utils";
 import routerHistory from "../js/routerHistory";
@@ -19,11 +19,22 @@ class AppStore {
 		localStore.set(TOKEN, token)
 	}
 
+	@computed
+	get ticket(){
+		localStore.get(TICKET)
+	}
+
+	setTicket(ticket){
+		localStore.set(TICKET, ticket)
+	}
+
+
 	@action
 	fetchLoginUser() {
 		systemApi.getLoginUser()
 			.then((result) => {
 				this.loginUser = result.obj
+				this.setTicket(result.obj.ticket)
 			})
 			.catch((error) => {
 				notification.error({
