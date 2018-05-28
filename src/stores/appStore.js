@@ -10,6 +10,8 @@ class AppStore {
 
 	@observable loginUser = null;
 
+	@observable ticket = ""
+
 	@computed
 	get token() {
 		return localStore.get(TOKEN);
@@ -19,22 +21,13 @@ class AppStore {
 		localStore.set(TOKEN, token)
 	}
 
-	@computed
-	get ticket(){
-		localStore.get(TICKET)
-	}
-
-	setTicket(ticket){
-		localStore.set(TICKET, ticket)
-	}
-
 
 	@action
 	fetchLoginUser() {
 		systemApi.getLoginUser()
 			.then((result) => {
 				this.loginUser = result.obj
-				this.setTicket(result.obj.ticket)
+				this.ticket = result.obj.ticket
 			})
 			.catch((error) => {
 				notification.error({

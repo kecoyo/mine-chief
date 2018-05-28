@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import cs from 'classnames';
 import {observer} from 'mobx-react';
 import navStore from "../../stores/navStore";
-import {TICKET} from "../../js/constants";
+import appStore from "../../stores/appStore";
 
 @observer
 export default class Content extends Component {
 	render() {
 		let currentPaths = navStore.currentPaths;
 		let currentNav = currentPaths[1] || {};
+		let {ticket} = appStore;
 		return (
 			<div id="sidebar">
 				<div className="sidebar-inner">
@@ -34,7 +35,7 @@ export default class Content extends Component {
 						<ul className="server-stats">
 							<li>
 								<div>
-									<img width="98%" src={"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+localStorage.getItem(TICKET).replace("\"","").replace("\"","")}></img>
+									<img width="98%" src={"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+ticket}></img>
 								</div>
 							</li>
 						</ul>
