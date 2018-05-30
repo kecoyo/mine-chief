@@ -8,6 +8,8 @@ class WeixinStore {
 
 	@observable list = [];
 
+	@observable ticketStr = "";
+
 	@action
 	bindList() {
 		userApi.bindList()
@@ -17,6 +19,37 @@ class WeixinStore {
 			.catch((error) => {
 				notification.error({
 					message: '加载绑定信息失败',
+					description: utils.getErrorMessage(error)
+				})
+			})
+	}
+
+	@action
+	unBind(openid) {
+		userApi.unbind({"openid":openid})
+			.then((result) => {
+				notification.success({
+					message: result.message
+				});
+				this.bindList();
+			})
+			.catch((error) => {
+				notification.error({
+					message: '解除绑定失败',
+					description: utils.getErrorMessage(error)
+				})
+			})
+	}
+
+	@action
+	ticket() {
+		userApi.ticket()
+			.then((result) => {
+				this.ticketStr = result.message ;
+			})
+			.catch((error) => {
+				notification.error({
+					message: '失败',
 					description: utils.getErrorMessage(error)
 				})
 			})

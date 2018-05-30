@@ -24,7 +24,13 @@ const userApi = {
 	 * 解除绑定
 	 * @param params {appid}
 	 */
-	unbind: (params) => request.get(env.apiPath + 'UserApi/bindList', params),
+	unbind: (params) => request.get(env.apiPath + 'UserApi/unbind', params),
+
+	/**
+	 * 获取二维码
+	 * @param params {appid}
+	 */
+	ticket: () => request.get(env.apiPath + 'UserApi/ticket'),
 
 
 };

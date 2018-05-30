@@ -8,7 +8,6 @@ import Button from "../../components/Button";
 import Panel from "../../components/Panel";
 import WeixinStore from "./WeixinStore";
 import {observer} from "mobx-react/index";
-import WeixinEdit from "./WeixinEdit";
 import Image from "../../components/Image";
 
 @observer
@@ -17,7 +16,6 @@ export default class Weixin extends Component {
 	constructor(props) {
 		super(props);
 		this.store = new WeixinStore();
-		this.edit = new WeixinEdit();
 		this.columns = [
 			{
 				title: '头像',
@@ -40,7 +38,7 @@ export default class Weixin extends Component {
 				title: '配置',
 				data: 'openid',
 				render: (text) => {
-					return <Button theme="primary" onClick={() => this.edit.unBind(text)}>解除绑定</Button>
+					return <Button theme="primary" onClick={() => this.store.unBind(text)}>解除绑定</Button>
 				}
 			},
 		];
@@ -63,7 +61,7 @@ export default class Weixin extends Component {
 								</div>
 							</div>
 							<div className="thumbnail">
-									<Image src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQF_8TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyQUpMazBLTVVjSGsxMDAwME0wN0gAAgRJmwpbAwQAAAAA"/>
+									<Image src={"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+this.store.ticketStr}/>
 							</div>
 						</div>
 					</div>
@@ -84,6 +82,9 @@ export default class Weixin extends Component {
 
 	componentDidMount() {
 		this.store.bindList();
+		this.store.ticket();
 	}
+
+
 
 }
