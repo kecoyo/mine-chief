@@ -48,6 +48,12 @@ class NavStore {
 				sidebar: true
 			},
 			{
+				name: '微信绑定',
+				icon: 'ec-chat',
+				path: '/home/weixin',
+				sidebar: true
+			},
+			{
 				name: 'Profile',
 				icon: 'st-user',
 				path: '/home/profile'

@@ -12,6 +12,7 @@ import Profit from './routes/profit';
 import Settings from './routes/settings';
 import Profile from './routes/profile';
 import MineEdit from "./routes/mine/MineEdit";
+import Weixin from "./routes/weixin";
 
 /**
  * 模块路由
@@ -33,6 +34,7 @@ const router = () => (
 					<Route path={`${props.match.path}/profit`} component={Profit}/>
 					<Route path={`${props.match.path}/settings`} component={Settings}/>
 					<Route path={`${props.match.path}/profile`} component={Profile}/>
+					<Route path={`${props.match.path}/weixin`} component={Weixin}/>
 				</Layout>
 			)}/>
 		</Switch>

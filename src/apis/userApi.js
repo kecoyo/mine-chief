@@ -12,6 +12,21 @@ const userApi = {
 	 */
 	update: (params) => request.get(env.apiPath + 'UserApi/update', params),
 
+
+
+	/**
+	 * 用户注册
+	 * @param params {mail, phone, oldPassword, password, repassword}
+	 */
+	bindList: (params) => request.get(env.apiPath + 'UserApi/bindList', params),
+
+	/**
+	 * 解除绑定
+	 * @param params {appid}
+	 */
+	unbind: (params) => request.get(env.apiPath + 'UserApi/bindList', params),
+
+
 };
 
 export default userApi

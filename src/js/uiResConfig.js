@@ -1,7 +1,7 @@
 const uiResConfig = {
 	"DataTable": [
-		'https://cdn.bootcss.com/datatables/1.10.16/js/jquery.dataTables.min.js',
-		'https://cdn.bootcss.com/datatables/1.10.16/js/dataTables.bootstrap.min.js'
+		'assets/js/jquery.dataTables.min.js',
+		'assets//js/dataTables.bootstrap.min.js'
 	],
 
 	Map: [
